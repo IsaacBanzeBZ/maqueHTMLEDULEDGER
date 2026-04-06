@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EduLedger — Gestion académique digitale</title>
+    <meta name="description"
+        content="Plateforme SaaS de gestion des résultats académiques. Import Excel, publication instantanée, accès sécurisé multi-universités." />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet" />
+
+    <!-- Feuilles de style -->
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <link rel="stylesheet" href="assets/css/components.css" />
+    <link rel="stylesheet" href="assets/css/layout.css" />
+</head>
+
+<body>
+
+    <!-- ═══════════════════════════════════════════════════════
+     SPRITES SVG (définitions inline — aucun serveur requis)
+     ═══════════════════════════════════════════════════════ -->
+    <svg style="display:none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <defs>
+            <symbol id="ic-graduation" viewBox="0 0 24 24">
+                <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
+                <path d="M6 12v5c3 3 9 3 12 0v-5" />
+            </symbol>
+            <symbol id="ic-upload" viewBox="0 0 24 24">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                <polyline points="17 8 12 3 7 8" />
+                <line x1="12" y1="3" x2="12" y2="15" />
+            </symbol>
+            <symbol id="ic-shield" viewBox="0 0 24 24">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+            </symbol>
+            <symbol id="ic-bar-chart" viewBox="0 0 24 24">
+                <path d="M18 20V10" />
+                <path d="M12 20V4" />
+                <path d="M6 20v-6" />
+            </symbol>
+            <symbol id="ic-users" viewBox="0 0 24 24">
+                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+                <circle cx="9" cy="7" r="4" />
+                <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+                <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+            </symbol>
+            <symbol id="ic-building" viewBox="0 0 24 24">
+                <path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z" />
+                <path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2" />
+                <path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 0-2 2h-2" />
+                <path d="M10 6h4" />
+                <path d="M10 10h4" />
+                <path d="M10 14h4" />
+                <path d="M10 18h4" />
+            </symbol>
+            <symbol id="ic-arrow-right" viewBox="0 0 24 24">
+                <line x1="5" y1="12" x2="19" y2="12" />
+                <polyline points="12 5 19 12 12 19" />
+            </symbol>
+            <symbol id="ic-check-circle" viewBox="0 0 24 24">
+                <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z" />
+                <path d="m9 12 2 2 4-4" />
+            </symbol>
+            <symbol id="ic-sun" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="4" />
+                <path
+                    d="M12 2v2M12 20v2m-7.07-14.07 1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2m-4.93-7.07-1.41 1.41M6.34 17.66l-1.41 1.41" />
+            </symbol>
+            <symbol id="ic-moon" viewBox="0 0 24 24">
+                <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
+            </symbol>
+            <symbol id="ic-menu" viewBox="0 0 24 24">
+                <line x1="4" y1="12" x2="20" y2="12" />
+                <line x1="4" y1="6" x2="20" y2="6" />
+                <line x1="4" y1="18" x2="20" y2="18" />
+            </symbol>
+        </defs>
+    </svg>
+
+    <!-- ═══════════════════════════════════════════════════════
+     NAVIGATION FIXE
+     ═══════════════════════════════════════════════════════ -->
+    <header class="landing-nav" role="banner">
+        <div class="container landing-nav-inner">
+
+            <!-- Logo -->
+            <a class="nav-brand" href="index.html" aria-label="EduLedger — Accueil">
+                <div class="nav-brand-logo" aria-hidden="true">
+                    <svg class="icon" style="font-size:1.125rem" aria-hidden="true">
+                        <use href="#ic-graduation" />
+                    </svg>
+                </div>
+                <span class="nav-brand-name">EduLedger</span>
+            </a>
+
+            <!-- Liens (desktop) -->
+            <nav class="nav-links" aria-label="Navigation principale">
+                <a class="nav-link-text" href="#features">Fonctionnalités</a>
+                <a class="nav-link-text" href="#how">Comment ça marche</a>
+                <a class="nav-link-text" href="#stats">Chiffres</a>
+            </nav>
+
+            <!-- CTA + toggle thème -->
+            <div class="nav-cta">
+                <!-- Bouton thème -->
+                <button class="btn-icon theme-toggle" id="themeToggle" aria-label="Basculer le thème clair/sombre">
+                    <svg class="icon icon-sun" aria-hidden="true" style="font-size:1.125rem">
+                        <use href="#ic-sun" />
+                    </svg>
+                    <svg class="icon icon-moon" aria-hidden="true" style="font-size:1.125rem">
+                        <use href="#ic-moon" />
+                    </svg>
+                </button>
+
+                <a class="btn btn-ghost btn-sm" href="login/">Espace étudiant</a>
+                <a class="btn btn-primary btn-sm" href="login/">
+                    Espace admin
+                    <svg class="icon" aria-hidden="true" style="font-size:0.875rem">
+                        <use href="#ic-arrow-right" />
+                    </svg>
+                </a>
+            </div>
+
+            <!-- Hamburger mobile -->
+            <button class="btn-icon" id="mobileMenuBtn" aria-label="Menu mobile" style="display:none"
+                aria-expanded="false">
+                <svg class="icon" aria-hidden="true">
+                    <use href="#ic-menu" />
+                </svg>
+            </button>
+        </div>
+
+        <!-- Menu mobile -->
+        <div id="mobileMenu" style="display:none; flex-direction:column; gap:0.5rem;
+       padding:1rem; border-top:1px solid var(--clr-border); background:var(--clr-bg)">
+            <a class="nav-link-text" href="#features">Fonctionnalités</a>
+            <a class="nav-link-text" href="#how">Comment ça marche</a>
+            <a class="nav-link-text" href="#stats">Chiffres</a>
+            <hr style="border-color:var(--clr-border)" />
+            <a class="btn btn-ghost btn-sm" href="login/">Espace étudiant</a>
+            <a class="btn btn-primary btn-sm" href="login/">Espace admin</a>
+        </div>
+    </header>
+
+    <main>
+
+        <!-- ═══════════════════════════════════════════════════════
+       SECTION HERO
+       ═══════════════════════════════════════════════════════ -->
+        <section class="hero-section" aria-labelledby="hero-heading">
+            <div class="hero-bg" aria-hidden="true"></div>
+            <div class="container hero-inner">
+
+                <!-- Pill badge -->
+                <div class="hero-pill anim-fade-in" aria-hidden="true">
+                    <span class="hero-pill-dot"></span>
+                    Plateforme SaaS académique
+                </div>
+
+                <!-- Titre principal -->
+                <h1 id="hero-heading" class="hero-title anim-slide-up delay-1">
+                    Digitalisez la gestion de vos
+                    <span class="gradient-text">résultats académiques</span>
+                </h1>
+
+                <!-- Sous-titre -->
+                <p class="hero-subtitle anim-slide-up delay-2">
+                    EduLedger centralise la gestion des notes, des étudiants et des promotions
+                    pour les universités. Import Excel, publication instantanée, accès sécurisé.
+                </p>
+
+                <!-- Boutons CTA -->
+                <div class="hero-buttons anim-slide-up delay-3">
+                    <a class="btn btn-primary btn-lg" href="login/">
+                        Démarrer gratuitement
+                        <svg class="icon" aria-hidden="true">
+                            <use href="#ic-arrow-right" />
+                        </svg>
+                    </a>
+                    <a class="btn btn-outline btn-lg" href="admin/dashboard.html">Voir la démo</a>
+                </div>
+
+                <!-- Visuel hero (grille de statistiques) -->
+                <div class="hero-visual anim-scale-in delay-4">
+                    <div class="hero-visual-frame">
+                        <div class="hero-visual-inner">
+                            <div class="hero-stats-grid">
+                                <div class="hero-stat-card">
+                                    <div class="hero-stat-value">100%</div>
+                                    <div class="hero-stat-label">Digital</div>
+                                </div>
+                                <div class="hero-stat-card">
+                                    <div class="hero-stat-value">3</div>
+                                    <div class="hero-stat-label">Rôles</div>
+                                </div>
+                                <div class="hero-stat-card">
+                                    <div class="hero-stat-value">∞</div>
+                                    <div class="hero-stat-label">Universités</div>
+                                </div>
+                                <div class="hero-stat-card">
+                                    <div class="hero-stat-value">24/7</div>
+                                    <div class="hero-stat-label">Accès</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ═══════════════════════════════════════════════════════
+       SECTION FONCTIONNALITÉS
+       ═══════════════════════════════════════════════════════ -->
+        <section id="features" style="padding-block:5rem" aria-labelledby="features-heading">
+            <div class="container">
+                <div class="section-heading">
+                    <h2 id="features-heading">Tout ce dont votre université a besoin</h2>
+                    <p>Une plateforme complète pour gérer les résultats académiques de A à Z.</p>
+                </div>
+
+                <div class="features-grid">
+                    <!-- Fonctionnalité 1 -->
+                    <article class="feature-card anim-slide-up delay-1">
+                        <div class="feature-icon" aria-hidden="true">
+                            <svg class="icon" style="font-size:1.5rem">
+                                <use href="#ic-upload" />
+                            </svg>
+                        </div>
+                        <h3 class="feature-title">Import Excel intelligent</h3>
+                        <p class="feature-desc">
+                            Importez étudiants et notes en un clic. Création automatique des profils
+                            et génération des matricules.
+                        </p>
+                    </article>
+
+                    <!-- Fonctionnalité 2 -->
+                    <article class="feature-card anim-slide-up delay-2">
+                        <div class="feature-icon" aria-hidden="true">
+                            <svg class="icon" style="font-size:1.5rem">
+                                <use href="#ic-bar-chart" />
+                            </svg>
+                        </div>
+                        <h3 class="feature-title">Publication en temps réel</h3>
+                        <p class="feature-desc">
+                            Publiez les résultats instantanément. Les étudiants consultent leurs notes
+                            depuis leur dashboard.
+                        </p>
+                    </article>
+
+                    <!-- Fonctionnalité 3 -->
+                    <article class="feature-card anim-slide-up delay-3">
+                        <div class="feature-icon" aria-hidden="true">
+                            <svg class="icon" style="font-size:1.5rem">
+                                <use href="#ic-building" />
+                            </svg>
+                        </div>
+                        <h3 class="feature-title">Multi-universités</h3>
+                        <p class="feature-desc">
+                            Une seule plateforme pour plusieurs universités. Données isolées et
+                            sécurisées par institution.
+                        </p>
+                    </article>
+
+                    <!-- Fonctionnalité 4 -->
+                    <article class="feature-card anim-slide-up delay-4">
+                        <div class="feature-icon" aria-hidden="true">
+                            <svg class="icon" style="font-size:1.5rem">
+                                <use href="#ic-shield" />
+                            </svg>
+                        </div>
+                        <h3 class="feature-title">Sécurité maximale</h3>
+                        <p class="feature-desc">
+                            Authentification sécurisée, accès par rôle, isolation des données et
+                            chiffrement des mots de passe.
+                        </p>
+                    </article>
+
+                    <!-- Fonctionnalité 5 -->
+                    <article class="feature-card anim-slide-up delay-5">
+                        <div class="feature-icon" aria-hidden="true">
+                            <svg class="icon" style="font-size:1.5rem">
+                                <use href="#ic-users" />
+                            </svg>
+                        </div>
+                        <h3 class="feature-title">Gestion des rôles</h3>
+                        <p class="feature-desc">
+                            Super Admin, Admin université et Étudiant. Chaque rôle a des permissions
+                            adaptées à ses besoins.
+                        </p>
+                    </article>
+
+                    <!-- Fonctionnalité 6 -->
+                    <article class="feature-card anim-slide-up delay-6">
+                        <div class="feature-icon" aria-hidden="true">
+                            <svg class="icon" style="font-size:1.5rem">
+                                <use href="#ic-graduation" />
+                            </svg>
+                        </div>
+                        <h3 class="feature-title">Historique complet</h3>
+                        <p class="feature-desc">
+                            Conservez l'historique par année académique. Gérez les redoublants sans
+                            perte de données.
+                        </p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══════════════════════════════════════════════════════
+       SECTION COMMENT ÇA MARCHE
+       ═══════════════════════════════════════════════════════ -->
+        <section id="how" style="padding-block:5rem; background-color:var(--clr-muted)" aria-labelledby="how-heading">
+            <div class="container">
+                <div class="section-heading">
+                    <h2 id="how-heading">Comment ça marche</h2>
+                    <p>Trois étapes simples pour digitaliser votre gestion académique.</p>
+                </div>
+
+                <div class="features-grid" style="max-width:900px; margin-inline:auto">
+                    <article class="how-step anim-slide-up delay-1">
+                        <div class="step-number" aria-hidden="true">1</div>
+                        <div>
+                            <h3 class="step-title">Créez votre université</h3>
+                            <p class="step-desc">
+                                Le Super Admin crée votre institution et vous attribue un compte Admin.
+                            </p>
+                        </div>
+                    </article>
+                    <article class="how-step anim-slide-up delay-2">
+                        <div class="step-number" aria-hidden="true">2</div>
+                        <div>
+                            <h3 class="step-title">Importez vos données</h3>
+                            <p class="step-desc">
+                                Importez étudiants et notes via Excel. La plateforme génère automatiquement les profils.
+                            </p>
+                        </div>
+                    </article>
+                    <article class="how-step anim-slide-up delay-3">
+                        <div class="step-number" aria-hidden="true">3</div>
+                        <div>
+                            <h3 class="step-title">Publiez les résultats</h3>
+                            <p class="step-desc">
+                                D'un clic, publiez les résultats. Chaque étudiant accède à ses notes sécurisées.
+                            </p>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══════════════════════════════════════════════════════
+       SECTION STATISTIQUES
+       ═══════════════════════════════════════════════════════ -->
+        <section id="stats" style="padding-block:5rem" aria-labelledby="stats-heading">
+            <div class="container">
+                <div class="section-heading">
+                    <h2 id="stats-heading">EduLedger en chiffres</h2>
+                    <p>Une plateforme qui grandit avec vos besoins.</p>
+                </div>
+
+                <div class="stats-grid" style="max-width:700px;margin-inline:auto">
+                    <div class="hero-stat-card anim-scale-in delay-1">
+                        <div class="hero-stat-value">12</div>
+                        <div class="hero-stat-label">Universités</div>
+                    </div>
+                    <div class="hero-stat-card anim-scale-in delay-2">
+                        <div class="hero-stat-value">15 420</div>
+                        <div class="hero-stat-label">Étudiants</div>
+                    </div>
+                    <div class="hero-stat-card anim-scale-in delay-3">
+                        <div class="hero-stat-value">128 K</div>
+                        <div class="hero-stat-label">Notes enregistrées</div>
+                    </div>
+                    <div class="hero-stat-card anim-scale-in delay-4">
+                        <div class="hero-stat-value">99.9%</div>
+                        <div class="hero-stat-label">Disponibilité</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══════════════════════════════════════════════════════
+       SECTION CTA FINALE
+       ═══════════════════════════════════════════════════════ -->
+        <section
+            style="padding-block:5rem; background:linear-gradient(135deg, var(--clr-primary), var(--clr-secondary))"
+            aria-label="Appel à l'action">
+            <div class="container" style="text-align:center; color:white">
+                <h2 style="font-size:clamp(1.75rem,3.5vw,2.5rem);font-weight:800;margin-bottom:1rem">
+                    Prêt à digitaliser votre université ?
+                </h2>
+                <p
+                    style="opacity:0.87;max-width:32rem;margin-inline:auto;margin-bottom:2.5rem;font-size:1.0625rem;line-height:1.7">
+                    Rejoignez les universités qui font confiance à EduLedger pour la gestion de leurs résultats
+                    académiques.
+                </p>
+                <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap">
+                    <a class="btn btn-lg" href="login/"
+                        style="background:white;color:var(--clr-primary);font-weight:600">
+                        Espace Admin
+                        <svg class="icon" aria-hidden="true">
+                            <use href="#ic-arrow-right" />
+                        </svg>
+                    </a>
+                    <a class="btn btn-lg btn-outline" href="login/"
+                        style="border-color:rgba(255,255,255,0.5);color:white">
+                        Espace Étudiant
+                    </a>
+                    <a class="btn btn-lg btn-outline" href="login/"
+                        style="border-color:rgba(255,255,255,0.5);color:white">
+                        Super Admin
+                    </a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ═══════════════════════════════════════════════════════
+     FOOTER
+     ═══════════════════════════════════════════════════════ -->
+    <footer class="landing-footer">
+        <div class="container">
+            <p>© 2026 EduLedger — Plateforme de gestion académique. Tous droits réservés.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="assets/js/app.js"></script>
+    <script>
+        /* Affiche le burger menu sur mobile */
+        (function () {
+            const btn = document.getElementById('mobileMenuBtn');
+            if (btn && window.innerWidth < 768) btn.style.display = 'flex';
+            window.addEventListener('resize', () => {
+                if (btn) btn.style.display = window.innerWidth < 768 ? 'flex' : 'none';
+            });
+        })();
+    </script>
+</body>
+
+</html>

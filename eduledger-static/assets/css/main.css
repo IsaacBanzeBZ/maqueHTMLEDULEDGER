@@ -1,0 +1,355 @@
+/*
+ * ============================================================
+ *  EDULEDGER — CSS Principal
+ *  Fichier 1/3 : Variables de design, reset, base, utilitaires
+ * ============================================================
+ */
+
+/* ─── 1. Police Google Fonts ──────────────────────────────── */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap");
+
+/* ─── 2. Jetons de design (thème clair par défaut) ──────────
+   Correspondance exacte avec les variables CSS de index.css
+   du projet React (converties depuis Tailwind HSL).
+   ─────────────────────────────────────────────────────────── */
+:root {
+  /* Couleurs principales */
+  --clr-bg: hsl(210, 40%, 98%);
+  --clr-fg: hsl(222, 47%, 11%);
+
+  /* Cartes */
+  --clr-card: hsl(0, 0%, 100%);
+  --clr-card-fg: hsl(222, 47%, 11%);
+
+  /* Popover */
+  --clr-popover: hsl(0, 0%, 100%);
+  --clr-popover-fg: hsl(222, 47%, 11%);
+
+  /* Couleur d'action principale (bleu) */
+  --clr-primary: hsl(217, 84%, 53%);
+  --clr-primary-fg: hsl(0, 0%, 100%);
+
+  /* Couleur secondaire (bleu foncé) */
+  --clr-secondary: hsl(221, 72%, 40%);
+  --clr-secondary-fg: hsl(0, 0%, 100%);
+
+  /* Accent (vert émeraude) */
+  --clr-accent: hsl(160, 84%, 39%);
+  --clr-accent-fg: hsl(0, 0%, 100%);
+
+  /* Muted / discret */
+  --clr-muted: hsl(210, 40%, 96%);
+  --clr-muted-fg: hsl(215, 16%, 47%);
+
+  /* Destructif (rouge) */
+  --clr-destructive: hsl(0, 84%, 60%);
+  --clr-destructive-fg: hsl(0, 0%, 100%);
+
+  /* Highlight (jaune) */
+  --clr-highlight: hsl(43, 96%, 56%);
+  --clr-highlight-fg: hsl(222, 47%, 11%);
+
+  /* Bordures & inputs */
+  --clr-border: hsl(220, 13%, 91%);
+  --clr-input: hsl(220, 13%, 91%);
+  --clr-ring: hsl(217, 84%, 53%);
+
+  /* Sidebar */
+  --clr-sidebar-bg: hsl(0, 0%, 100%);
+  --clr-sidebar-fg: hsl(222, 47%, 11%);
+  --clr-sidebar-muted-fg: hsl(215, 16%, 47%);
+  --clr-sidebar-border: hsl(220, 13%, 91%);
+  --clr-sidebar-accent: hsl(210, 40%, 96%);
+  --clr-sidebar-primary: hsl(217, 84%, 53%);
+  --clr-sidebar-primary-fg: hsl(0, 0%, 100%);
+
+  /* Dimensions layout */
+  --sidebar-w: 260px;
+  --sidebar-w-collapsed: 64px;
+  --header-h: 56px;
+
+  /* Rayons */
+  --radius-sm: 0.5rem;
+  --radius: 0.75rem;
+  --radius-md: 0.625rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.25rem;
+  --radius-full: 9999px;
+
+  /* Typographie */
+  --font: "Inter", system-ui, -apple-system, sans-serif;
+
+  /* Ombres */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg:
+    0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --shadow-xl:
+    0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+
+  /* Transitions */
+  --tr-fast: 150ms ease;
+  --tr: 200ms ease;
+  --tr-slow: 300ms ease;
+}
+
+/* ─── 3. Thème sombre ────────────────────────────────────── */
+[data-theme="dark"] {
+  --clr-bg: hsl(222, 47%, 11%);
+  --clr-fg: hsl(210, 40%, 98%);
+  --clr-card: hsl(222, 47%, 15%);
+  --clr-card-fg: hsl(210, 40%, 98%);
+  --clr-popover: hsl(222, 47%, 15%);
+  --clr-popover-fg: hsl(210, 40%, 98%);
+  --clr-primary: hsl(217, 84%, 53%);
+  --clr-primary-fg: hsl(0, 0%, 100%);
+  --clr-secondary: hsl(221, 72%, 40%);
+  --clr-secondary-fg: hsl(0, 0%, 100%);
+  --clr-accent: hsl(160, 84%, 39%);
+  --clr-accent-fg: hsl(0, 0%, 100%);
+  --clr-muted: hsl(222, 47%, 18%);
+  --clr-muted-fg: hsl(215, 16%, 65%);
+  --clr-destructive: hsl(0, 62%, 45%);
+  --clr-destructive-fg: hsl(210, 40%, 98%);
+  --clr-highlight: hsl(43, 96%, 56%);
+  --clr-highlight-fg: hsl(222, 47%, 11%);
+  --clr-border: hsl(222, 47%, 20%);
+  --clr-input: hsl(222, 47%, 20%);
+  --clr-ring: hsl(217, 84%, 53%);
+  --clr-sidebar-bg: hsl(222, 47%, 8%);
+  --clr-sidebar-fg: hsl(210, 40%, 98%);
+  --clr-sidebar-muted-fg: hsl(215, 16%, 55%);
+  --clr-sidebar-border: hsl(222, 47%, 20%);
+  --clr-sidebar-accent: hsl(222, 47%, 15%);
+}
+
+/* ─── 4. Reset CSS ───────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ─── 5. Base ─────────────────────────────────────────────── */
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--font);
+  background-color: var(--clr-bg);
+  color: var(--clr-fg);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img,
+svg {
+  display: block;
+}
+
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+ul,
+ol {
+  list-style: none;
+}
+
+/* ─── 6. Icônes SVG inline ───────────────────────────────── */
+/* Les SVGs inline utilisent cette classe pour hériter
+   la taille et la couleur du contexte parent */
+.icon {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  flex-shrink: 0;
+  vertical-align: middle;
+}
+
+/* ─── 7. Couleurs dégradées (gradient text) ──────────────── */
+.gradient-text {
+  background: linear-gradient(135deg, var(--clr-primary), var(--clr-secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ─── 8. Animations / transitions entrées ────────────────── */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.anim-fade-in {
+  animation: fadeIn var(--tr-slow) ease both;
+}
+.anim-slide-up {
+  animation: slideUp var(--tr-slow) ease both;
+}
+.anim-slide-in {
+  animation: slideInRight var(--tr-slow) ease both;
+}
+.anim-scale-in {
+  animation: scaleIn var(--tr) ease both;
+}
+
+/* Délais d'animation pour les grilles staggered */
+.delay-1 {
+  animation-delay: 0.06s;
+}
+.delay-2 {
+  animation-delay: 0.12s;
+}
+.delay-3 {
+  animation-delay: 0.18s;
+}
+.delay-4 {
+  animation-delay: 0.24s;
+}
+.delay-5 {
+  animation-delay: 0.3s;
+}
+.delay-6 {
+  animation-delay: 0.36s;
+}
+
+/* ─── 9. Utilitaires d'accessibilité ─────────────────────── */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* ─── 10. Conteneur centré (équivalent Tailwind container) ── */
+.container {
+  width: 100%;
+  max-width: 1400px;
+  margin-inline: auto;
+  padding-inline: 2rem;
+}
+
+/* ─── 11. Grilles de page ────────────────────────────────── */
+/* Grille 4 colonnes (stats) */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+/* Grille 2 colonnes (graphiques) */
+.charts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+  gap: 1.5rem;
+}
+
+/* Grille 3 colonnes (features) */
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+/* Grille 4 colonnes (quick stats hero) */
+.hero-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+}
+
+@media (max-width: 640px) {
+  .hero-stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .container {
+    padding-inline: 1rem;
+  }
+}
+
+/* Espacement de section */
+.section-gap {
+  margin-bottom: 1.5rem;
+}
+.page-content {
+  padding: 1.5rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+@media (min-width: 640px) {
+  .page-content {
+    padding: 2rem;
+  }
+}

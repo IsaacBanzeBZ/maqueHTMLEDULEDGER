@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Administrateurs — Super Admin EduLedger</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="../assets/css/main.css" />
+    <link rel="stylesheet" href="../assets/css/components.css" />
+    <link rel="stylesheet" href="../assets/css/layout.css" />
+    <style>
+        .avatar {
+            width: 2rem;
+            height: 2rem;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: .65rem;
+            font-weight: 700;
+            color: #fff;
+            flex-shrink: 0
+        }
+
+        .admin-cell {
+            display: flex;
+            align-items: center;
+            gap: .625rem
+        }
+    </style>
+</head>
+
+<body>
+    <svg style="display:none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <defs>
+            <symbol id="ic-dashboard" viewBox="0 0 24 24">
+                <rect width="7" height="9" x="3" y="3" rx="1" />
+                <rect width="7" height="5" x="14" y="3" rx="1" />
+                <rect width="7" height="9" x="14" y="12" rx="1" />
+                <rect width="7" height="5" x="3" y="16" rx="1" />
+            </symbol>
+            <symbol id="ic-university" viewBox="0 0 24 24">
+                <path d="M3 21h18M3 10h18M5 6l7-3 7 3M4 10v11M20 10v11M8 14v3M12 14v3M16 14v3" />
+            </symbol>
+            <symbol id="ic-users" viewBox="0 0 24 24">
+                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+                <circle cx="9" cy="7" r="4" />
+                <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+                <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+            </symbol>
+            <symbol id="ic-shield" viewBox="0 0 24 24">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+            </symbol>
+            <symbol id="ic-bell" viewBox="0 0 24 24">
+                <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" />
+                <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" />
+            </symbol>
+            <symbol id="ic-settings" viewBox="0 0 24 24">
+                <path
+                    d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z" />
+                <circle cx="12" cy="12" r="3" />
+            </symbol>
+            <symbol id="ic-logout" viewBox="0 0 24 24">
+                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                <polyline points="16 17 21 12 16 7" />
+                <line x1="21" y1="12" x2="9" y2="12" />
+            </symbol>
+            <symbol id="ic-sun" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="4" />
+                <path
+                    d="M12 2v2M12 20v2m-7.07-14.07 1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2m-4.93-7.07-1.41 1.41M6.34 17.66l-1.41 1.41" />
+            </symbol>
+            <symbol id="ic-moon" viewBox="0 0 24 24">
+                <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
+            </symbol>
+            <symbol id="ic-menu" viewBox="0 0 24 24">
+                <line x1="4" y1="12" x2="20" y2="12" />
+                <line x1="4" y1="6" x2="20" y2="6" />
+                <line x1="4" y1="18" x2="20" y2="18" />
+            </symbol>
+            <symbol id="ic-plus" viewBox="0 0 24 24">
+                <line x1="12" y1="5" x2="12" y2="19" />
+                <line x1="5" y1="12" x2="19" y2="12" />
+            </symbol>
+            <symbol id="ic-search" viewBox="0 0 24 24">
+                <circle cx="11" cy="11" r="8" />
+                <path d="m21 21-4.35-4.35" />
+            </symbol>
+            <symbol id="ic-x" viewBox="0 0 24 24">
+                <line x1="18" y1="6" x2="6" y2="18" />
+                <line x1="6" y1="6" x2="18" y2="18" />
+            </symbol>
+            <symbol id="ic-mail" viewBox="0 0 24 24">
+                <rect width="20" height="16" x="2" y="4" rx="2" />
+                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+            </symbol>
+        </defs>
+    </svg>
+
+    <div class="app">
+        <aside class="sidebar" id="sidebar" aria-label="Navigation super-admin">
+            <div class="sidebar-header"><a class="sidebar-brand" href="dashboard.html">
+                    <div class="sidebar-logo" style="background:hsl(260,75%,52%)">S</div><span
+                        class="sidebar-brand-name">EduLedger SA</span>
+                </a></div>
+            <nav class="sidebar-nav">
+                <div class="nav-group">
+                    <p class="nav-group-label">Plateforme</p>
+                    <a class="nav-link" href="dashboard.html"><svg class="icon" aria-hidden="true">
+                            <use href="#ic-dashboard" />
+                        </svg><span class="nav-label">Tableau de bord</span></a>
+                    <a class="nav-link" href="universities.html"><svg class="icon" aria-hidden="true">
+                            <use href="#ic-university" />
+                        </svg><span class="nav-label">Universités</span></a>
+                    <a class="nav-link active" href="admins.html" aria-current="page"><svg class="icon"
+                            aria-hidden="true">
+                            <use href="#ic-users" />
+                        </svg><span class="nav-label">Administrateurs</span></a>
+                    <a class="nav-link" href="audit-logs.html"><svg class="icon" aria-hidden="true">
+                            <use href="#ic-shield" />
+                        </svg><span class="nav-label">Logs d'audit</span></a>
+                </div>
+                <div class="nav-group">
+                    <p class="nav-group-label">Système</p>
+                    <a class="nav-link" href="notifications.html"><svg class="icon" aria-hidden="true">
+                            <use href="#ic-bell" />
+                        </svg><span class="nav-label">Notifications</span></a>
+                    <a class="nav-link" href="settings.html"><svg class="icon" aria-hidden="true">
+                            <use href="#ic-settings" />
+                        </svg><span class="nav-label">Paramètres</span></a>
+                </div>
+            </nav>
+            <div class="sidebar-footer"><a class="nav-link" href="../login/"><svg class="icon"
+                        aria-hidden="true">
+                        <use href="#ic-logout" />
+                    </svg><span class="nav-label">Déconnexion</span></a></div>
+        </aside>
+        <div id="mobileOverlay" class="mobile-overlay"></div>
+
+        <div class="main-area">
+            <header class="app-header">
+                <button class="btn-icon" id="sidebarToggle" aria-label="Réduire la navigation"><svg class="icon"
+                        style="font-size:1.125rem" aria-hidden="true">
+                        <use href="#ic-menu" />
+                    </svg></button>
+                <nav aria-label="Fil d'ariane" style="font-size:0.8125rem;color:var(--clr-muted-fg)">Super Admin <span
+                        style="margin-inline:.25rem">/</span><span
+                        style="color:var(--clr-fg);font-weight:500">Administrateurs</span></nav>
+                <div class="header-actions">
+                    <button class="btn-icon theme-toggle" id="themeToggle" aria-label="Basculer le thème">
+                        <svg class="icon icon-sun" style="font-size:1.125rem" aria-hidden="true">
+                            <use href="#ic-sun" />
+                        </svg>
+                        <svg class="icon icon-moon" style="font-size:1.125rem" aria-hidden="true">
+                            <use href="#ic-moon" />
+                        </svg>
+                    </button>
+                </div>
+            </header>
+
+            <main class="content">
+                <div style="display:flex;flex-direction:column;gap:1.5rem;padding:1.5rem">
+                    <div
+                        style="display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;flex-wrap:wrap">
+                        <div>
+                            <h1 style="font-size:1.5rem;font-weight:700;letter-spacing:-0.02em">Administrateurs</h1>
+                            <p style="font-size:0.875rem;color:var(--clr-muted-fg);margin-top:0.25rem">48 admins actifs
+                                sur la plateforme</p>
+                        </div>
+                        <button class="btn btn-primary btn-sm" data-modal-open="modalInviteAdmin">
+                            <svg class="icon" aria-hidden="true">
+                                <use href="#ic-mail" />
+                            </svg> Inviter
+                        </button>
+                    </div>
+
+                    <div style="display:flex;gap:.75rem;flex-wrap:wrap">
+                        <div class="input-wrapper has-icon-left" style="flex:1;min-width:14rem">
+                            <svg class="icon input-icon-left" aria-hidden="true">
+                                <use href="#ic-search" />
+                            </svg>
+                            <input class="form-input" type="search" placeholder="Rechercher par nom ou e-mail…"
+                                data-search-table="adminsTable" />
+                        </div>
+                        <select class="form-select" style="width:auto;padding-inline:.75rem"
+                            data-filter-table="adminsTable" data-filter-col="2">
+                            <option value="">Toutes les universités</option>
+                            <option>UFHB</option>
+                            <option>UAO</option>
+                            <option>INP-HB</option>
+                            <option>UVCI</option>
+                            <option>UNA</option>
+                        </select>
+                        <select class="form-select" style="width:auto;padding-inline:.75rem"
+                            data-filter-table="adminsTable" data-filter-col="4">
+                            <option value="">Tous les statuts</option>
+                            <option>Actif</option>
+                            <option>Inactif</option>
+                        </select>
+                    </div>
+
+                    <section class="card">
+                        <div class="card-content" style="padding:0;overflow-x:auto">
+                            <table class="data-table" id="adminsTable">
+                                <thead>
+                                    <tr>
+                                        <th>Admin</th>
+                                        <th>E-mail</th>
+                                        <th>Université</th>
+                                        <th>Rôle</th>
+                                        <th>Statut</th>
+                                        <th>Dernière connexion</th>
+                                        <th style="text-align:right">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <div class="admin-cell">
+                                                <div class="avatar" style="background:hsl(217,84%,53%)">AK</div><span
+                                                    style="font-weight:500">Amani Kouassi</span>
+                                            </div>
+                                        </td>
+                                        <td style="color:var(--clr-muted-fg)">a.kouassi@ufhb.edu.ci</td>
+                                        <td>UFHB</td>
+                                        <td>Admin principal</td>
+                                        <td><span class="badge badge-success">Actif</span></td>
+                                        <td style="color:var(--clr-muted-fg);font-size:.8125rem">Auj. 08:34</td>
+                                        <td style="text-align:right"><button
+                                                class="btn btn-outline btn-sm">Désactiver</button></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="admin-cell">
+                                                <div class="avatar" style="background:hsl(160,84%,39%)">MT</div><span
+                                                    style="font-weight:500">Marie Touré</span>
+                                            </div>
+                                        </td>
+                                        <td style="color:var(--clr-muted-fg)">m.toure@uao.edu.ci</td>
+                                        <td>UAO</td>
+                                        <td>Admin principal</td>
+                                        <td><span class="badge badge-success">Actif</span></td>
+                                        <td style="color:var(--clr-muted-fg);font-size:.8125rem">Hier 17:12</td>
+                                        <td style="text-align:right"><button
+                                                class="btn btn-outline btn-sm">Désactiver</button></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="admin-cell">
+                                                <div class="avatar" style="background:hsl(260,75%,52%)">JD</div><span
+                                                    style="font-weight:500">Jean Diabaté</span>
+                                            </div>
+                                        </td>
+                                        <td style="color:var(--clr-muted-fg)">j.diabate@inphb.edu.ci</td>
+                                        <td>INP-HB</td>
+                                        <td>Admin scolarité</td>
+                                        <td><span class="badge badge-success">Actif</span></td>
+                                        <td style="color:var(--clr-muted-fg);font-size:.8125rem">23 mai 2025</td>
+                                        <td style="text-align:right"><button
+                                                class="btn btn-outline btn-sm">Désactiver</button></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="admin-cell">
+                                                <div class="avatar" style="background:hsl(43,96%,56%);color:#111">NB
+                                                </div><span style="font-weight:500">Nadia Bamba</span>
+                                            </div>
+                                        </td>
+                                        <td style="color:var(--clr-muted-fg)">n.bamba@uvci.edu.ci</td>
+                                        <td>UVCI</td>
+                                        <td>Admin scolarité</td>
+                                        <td><span class="badge badge-success">Actif</span></td>
+                                        <td style="color:var(--clr-muted-fg);font-size:.8125rem">21 mai 2025</td>
+                                        <td style="text-align:right"><button
+                                                class="btn btn-outline btn-sm">Désactiver</button></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="admin-cell">
+                                                <div class="avatar" style="background:hsl(0,84%,60%)">SK</div><span
+                                                    style="font-weight:500">Samuel Koffi</span>
+                                            </div>
+                                        </td>
+                                        <td style="color:var(--clr-muted-fg)">s.koffi@una.edu.ci</td>
+                                        <td>UNA</td>
+                                        <td>Admin principal</td>
+                                        <td><span class="badge"
+                                                style="background:var(--clr-muted);color:var(--clr-muted-fg)">Inactif</span>
+                                        </td>
+                                        <td style="color:var(--clr-muted-fg);font-size:.8125rem">12 avr. 2025</td>
+                                        <td style="text-align:right"><button
+                                                class="btn btn-outline btn-sm">Réactiver</button></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="admin-cell">
+                                                <div class="avatar" style="background:hsl(217,84%,53%)">FN</div><span
+                                                    style="font-weight:500">Fatou N'Goran</span>
+                                            </div>
+                                        </td>
+                                        <td style="color:var(--clr-muted-fg)">f.ngoran@ufhb.edu.ci</td>
+                                        <td>UFHB</td>
+                                        <td>Admin scolarité</td>
+                                        <td><span class="badge badge-success">Actif</span></td>
+                                        <td style="color:var(--clr-muted-fg);font-size:.8125rem">Auj. 10:05</td>
+                                        <td style="text-align:right"><button
+                                                class="btn btn-outline btn-sm">Désactiver</button></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modalInviteAdmin" role="dialog" aria-modal="true" aria-labelledby="inviteTitle">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title" id="inviteTitle">Inviter un administrateur</h2>
+                <button class="btn-icon" data-modal-close="modalInviteAdmin" aria-label="Fermer"><svg class="icon"
+                        style="font-size:1.125rem" aria-hidden="true">
+                        <use href="#ic-x" />
+                    </svg></button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group"><label class="form-label" for="invEmail">Adresse e-mail <span
+                            aria-hidden="true">*</span></label><input class="form-input" type="email" id="invEmail"
+                        placeholder="admin@universite.ci" required /></div>
+                <div class="form-group">
+                    <label class="form-label" for="invUni">Université</label>
+                    <select class="form-select" id="invUni">
+                        <option value="">Sélectionner une université</option>
+                        <option>UFHB</option>
+                        <option>UAO</option>
+                        <option>UNA</option>
+                        <option>INP-HB</option>
+                        <option>UVCI</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="invRole">Rôle</label>
+                    <select class="form-select" id="invRole">
+                        <option>Admin principal</option>
+                        <option>Admin scolarité</option>
+                    </select>
+                </div>
+                <p style="font-size:.8125rem;color:var(--clr-muted-fg)">Un e-mail d'invitation sera envoyé à l'adresse
+                    indiquée avec un lien de création de compte.</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" data-modal-close="modalInviteAdmin">Annuler</button>
+                <button class="btn btn-primary" data-modal-close="modalInviteAdmin">Envoyer l'invitation</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../assets/js/app.js"></script>
+</body>
+
+</html>

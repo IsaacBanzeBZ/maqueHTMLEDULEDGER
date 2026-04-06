@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Connexion Admin — EduLedger</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="../assets/css/main.css" />
+    <link rel="stylesheet" href="../assets/css/components.css" />
+    <link rel="stylesheet" href="../assets/css/layout.css" />
+</head>
+
+<body>
+
+    <!-- Sprites SVG inline -->
+    <svg style="display:none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <defs>
+            <symbol id="ic-building" viewBox="0 0 24 24">
+                <path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z" />
+                <path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2" />
+                <path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 0-2 2h-2" />
+                <path d="M10 6h4" />
+                <path d="M10 10h4" />
+                <path d="M10 14h4" />
+                <path d="M10 18h4" />
+            </symbol>
+            <symbol id="ic-mail" viewBox="0 0 24 24">
+                <rect width="20" height="16" x="2" y="4" rx="2" />
+                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+            </symbol>
+            <symbol id="ic-lock" viewBox="0 0 24 24">
+                <rect width="18" height="11" x="3" y="11" rx="2" />
+                <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+            </symbol>
+            <symbol id="ic-eye" viewBox="0 0 24 24">
+                <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" />
+                <circle cx="12" cy="12" r="3" />
+            </symbol>
+            <symbol id="ic-eye-off" viewBox="0 0 24 24">
+                <path d="M9.88 9.88a3 3 0 1 0 4.24 4.24" />
+                <path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68" />
+                <path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61" />
+                <line x1="2" y1="2" x2="22" y2="22" />
+            </symbol>
+            <symbol id="ic-arrow-left" viewBox="0 0 24 24">
+                <line x1="19" y1="12" x2="5" y2="12" />
+                <polyline points="12 19 5 12 12 5" />
+            </symbol>
+            <symbol id="ic-arrow-right" viewBox="0 0 24 24">
+                <line x1="5" y1="12" x2="19" y2="12" />
+                <polyline points="12 5 19 12 12 19" />
+            </symbol>
+            <symbol id="ic-sun" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="4" />
+                <path
+                    d="M12 2v2M12 20v2m-7.07-14.07 1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2m-4.93-7.07-1.41 1.41M6.34 17.66l-1.41 1.41" />
+            </symbol>
+            <symbol id="ic-moon" viewBox="0 0 24 24">
+                <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
+            </symbol>
+        </defs>
+    </svg>
+
+    <!-- ═══════════════════════════════════════════════════════
+     PAGE CONNEXION ADMIN
+     Equivalent de : src/pages/AdminLogin.tsx
+     ═══════════════════════════════════════════════════════ -->
+    <div class="login-page">
+
+        <!-- ─── Panneau gauche (branding) ─── -->
+        <aside class="login-panel-left" aria-hidden="true">
+            <div class="login-bg-gradient"></div>
+            <div class="login-bg-radial"></div>
+            <div class="login-panel-content anim-slide-up">
+                <div class="login-panel-icon">
+                    <svg class="icon" style="font-size:2.5rem; color:white" aria-hidden="true">
+                        <use href="#ic-building" />
+                    </svg>
+                </div>
+                <h2 class="login-panel-title">Espace Administration</h2>
+                <p class="login-panel-desc">
+                    Gérez vos étudiants, importez les notes et publiez les résultats
+                    en toute simplicité.
+                </p>
+                <!-- Illustration : 3 points forts -->
+                <ul
+                    style="list-style:none;margin-top:2rem;text-align:left;display:flex;flex-direction:column;gap:0.875rem">
+                    <li style="display:flex;align-items:center;gap:0.625rem;opacity:0.9;font-size:0.9375rem">
+                        <span
+                            style="width:1.25rem;height:1.25rem;border-radius:50%;background:rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;font-size:0.75rem">✓</span>
+                        Import Excel en un clic
+                    </li>
+                    <li style="display:flex;align-items:center;gap:0.625rem;opacity:0.9;font-size:0.9375rem">
+                        <span
+                            style="width:1.25rem;height:1.25rem;border-radius:50%;background:rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;font-size:0.75rem">✓</span>
+                        Gestion des promotions et étudiants
+                    </li>
+                    <li style="display:flex;align-items:center;gap:0.625rem;opacity:0.9;font-size:0.9375rem">
+                        <span
+                            style="width:1.25rem;height:1.25rem;border-radius:50%;background:rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;font-size:0.75rem">✓</span>
+                        Publication instantanée des résultats
+                    </li>
+                </ul>
+            </div>
+        </aside>
+
+        <!-- ─── Panneau droit (formulaire) ─── -->
+        <main class="login-panel-right">
+            <div class="login-form-box">
+
+                <!-- Bouton thème (coin supérieur droit) -->
+                <button class="btn-icon theme-toggle" id="themeToggle" aria-label="Basculer le thème"
+                    style="position:absolute;top:1rem;right:1rem">
+                    <svg class="icon icon-sun" style="font-size:1.125rem" aria-hidden="true">
+                        <use href="#ic-sun" />
+                    </svg>
+                    <svg class="icon icon-moon" style="font-size:1.125rem" aria-hidden="true">
+                        <use href="#ic-moon" />
+                    </svg>
+                </button>
+
+                <!-- Lien retour -->
+                <a class="back-link" href="../index.html">
+                    <svg class="icon" aria-hidden="true" style="font-size:1rem">
+                        <use href="#ic-arrow-left" />
+                    </svg>
+                    Retour à l'accueil
+                </a>
+
+                <!-- Titre -->
+                <h1>Connexion Admin</h1>
+                <p class="subtitle">Connectez-vous à votre espace d'administration</p>
+
+                <!-- ─── Formulaire ─── -->
+                <!--
+        Conversion React → HTML :
+        - useForm + zodResolver  → validation HTML5 + JS minimal
+        - useState(loading)      → btn.disabled + textContent
+        - navigate("/admin")     → window.location.href
+        - <FormField>            → <div class="form-group">
+      -->
+                <form class="login-form" id="adminLoginForm" data-redirect="../admin/dashboard.html" novalidate>
+
+                    <!-- Email -->
+                    <div class="form-group">
+                        <label class="form-label" for="email">Email</label>
+                        <div class="input-wrapper has-icon-left">
+                            <svg class="icon input-icon-left" aria-hidden="true" style="font-size:1rem">
+                                <use href="#ic-mail" />
+                            </svg>
+                            <input class="form-input" type="email" id="email" name="email"
+                                placeholder="admin@universite.cd" autocomplete="email" required />
+                        </div>
+                    </div>
+
+                    <!-- Mot de passe -->
+                    <div class="form-group">
+                        <label class="form-label" for="password">Mot de passe</label>
+                        <div class="input-wrapper has-icon-left has-icon-right">
+                            <svg class="icon input-icon-left" aria-hidden="true" style="font-size:1rem">
+                                <use href="#ic-lock" />
+                            </svg>
+                            <input class="form-input" type="password" id="password" name="password"
+                                placeholder="••••••••" autocomplete="current-password" minlength="6" required />
+                            <!-- Toggle show/hide password -->
+                            <button type="button" class="input-icon-right" data-toggle-password="password"
+                                aria-label="Afficher ou masquer le mot de passe">
+                                <svg class="icon icon-eye" aria-hidden="true" style="font-size:1rem">
+                                    <use href="#ic-eye" />
+                                </svg>
+                                <svg class="icon icon-eye-off" aria-hidden="true" style="font-size:1rem;display:none">
+                                    <use href="#ic-eye-off" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Mot de passe oublié -->
+                    <a class="forgot-link" href="#" data-modal-open="forgotPasswordModal" onclick="return false;">
+                        Mot de passe oublié ?
+                    </a>
+
+                    <!-- Bouton de connexion -->
+                    <button type="submit" class="btn btn-primary" style="width:100%;height:2.75rem">
+                        Se connecter
+                        <svg class="icon" aria-hidden="true">
+                            <use href="#ic-arrow-right" />
+                        </svg>
+                    </button>
+
+                    <!-- Lien vers les autres espaces -->
+                    <p style="text-align:center;font-size:0.8125rem;color:var(--clr-muted-fg)">
+                        Pas un admin ?
+                        <a href="student.html" style="color:var(--clr-primary)">Espace étudiant</a>
+                        &nbsp;·&nbsp;
+                        <a href="super-admin.html" style="color:var(--clr-primary)">Super Admin</a>
+                    </p>
+                </form>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════
+     MODALE : Mot de passe oublié
+     Equivalent de : src/components/ForgotPasswordDialog.tsx
+     ═══════════════════════════════════════════════════════ -->
+    <div class="modal-overlay" id="forgotPasswordModal" role="dialog" aria-modal="true" aria-labelledby="forgotTitle">
+        <div class="modal">
+            <div class="modal-header">
+                <div>
+                    <h2 class="modal-title" id="forgotTitle">Mot de passe oublié</h2>
+                    <p class="modal-description">Entrez votre email pour recevoir un lien de réinitialisation.</p>
+                </div>
+                <button class="modal-close" aria-label="Fermer">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"
+                        aria-hidden="true">
+                        <line x1="18" y1="6" x2="6" y2="18" />
+                        <line x1="6" y1="6" x2="18" y2="18" />
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label" for="forgotEmail">Adresse email</label>
+                    <input class="form-input" type="email" id="forgotEmail" placeholder="admin@universite.cd"
+                        autocomplete="email" />
+                </div>
+                <div class="alert alert-warning" style="font-size:0.8125rem">
+                    Un email de récupération vous sera envoyé par votre Super Admin.
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline modal-close btn-sm">Annuler</button>
+                <button class="btn btn-primary btn-sm" onclick="this.textContent='Envoyé ✓';this.disabled=true">
+                    Envoyer le lien
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../assets/js/app.js"></script>
+</body>
+
+</html>

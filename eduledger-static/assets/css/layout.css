@@ -1,0 +1,777 @@
+/*
+ * ============================================================
+ *  EDULEDGER — Mise en page
+ *  Fichier 3/3 : Sidebar, Header, Layout applicatif,
+ *                Pages de connexion, Landing page
+ * ============================================================
+ */
+
+/* ─────────────────────────────────────────────────────────
+   STRUCTURE GLOBALE DE L'APPLICATION
+   .app = conteneur racine de toutes les pages avec sidebar
+   ───────────────────────────────────────────────────────── */
+.app {
+  display: flex;
+  min-height: 100vh;
+  background-color: var(--clr-bg);
+}
+
+/* ─────────────────────────────────────────────────────────
+   SIDEBAR (navigation latérale)
+   ───────────────────────────────────────────────────────── */
+.sidebar {
+  width: var(--sidebar-w);
+  min-height: 100vh;
+  background-color: var(--clr-sidebar-bg);
+  border-right: 1px solid var(--clr-sidebar-border);
+  display: flex;
+  flex-direction: column;
+  transition: width var(--tr-slow);
+  overflow: hidden;
+  flex-shrink: 0;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  z-index: 40;
+}
+
+/* État réduit (collapsed) — togglé par JS en ajoutant .collapsed */
+.sidebar.collapsed {
+  width: var(--sidebar-w-collapsed);
+}
+
+/* Cache les textes quand réduit */
+.sidebar.collapsed .sidebar-brand-name,
+.sidebar.collapsed .nav-label,
+.sidebar.collapsed .nav-group-label {
+  opacity: 0;
+  width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+/* Sur mobile : sidebar en overlay */
+@media (max-width: 768px) {
+  .sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    transform: translateX(-100%);
+    box-shadow: var(--shadow-xl);
+    z-index: 200;
+  }
+  .sidebar.mobile-open {
+    transform: translateX(0);
+  }
+  .sidebar.collapsed {
+    width: var(--sidebar-w); /* sur mobile pas de collapsed */
+  }
+  /* Overlay mobile */
+  .mobile-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgb(0 0 0 / 0.4);
+    z-index: 190;
+  }
+  .mobile-overlay.visible {
+    display: block;
+  }
+}
+
+/* ─── En-tête de la sidebar ─── */
+.sidebar-header {
+  padding: 1rem 0.75rem 0.75rem;
+  border-bottom: 1px solid var(--clr-sidebar-border);
+  flex-shrink: 0;
+}
+
+.sidebar-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  text-decoration: none;
+  border-radius: var(--radius-md);
+  padding: 0.25rem 0.25rem;
+  transition: background-color var(--tr-fast);
+}
+.sidebar-brand:hover {
+  background-color: var(--clr-sidebar-accent);
+}
+
+.sidebar-logo {
+  width: 2rem;
+  height: 2rem;
+  border-radius: var(--radius-sm);
+  background-color: var(--clr-sidebar-primary);
+  color: var(--clr-sidebar-primary-fg);
+  font-weight: 700;
+  font-size: 0.875rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.sidebar-brand-name {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--clr-sidebar-fg);
+  letter-spacing: -0.02em;
+  transition:
+    opacity var(--tr-slow),
+    width var(--tr-slow);
+  white-space: nowrap;
+}
+
+/* ─── Navigation ─── */
+.sidebar-nav {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 0.5rem 0.5rem;
+  scrollbar-width: thin;
+  scrollbar-color: var(--clr-sidebar-border) transparent;
+}
+
+.nav-group {
+  margin-bottom: 1rem;
+}
+
+.nav-group-label {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--clr-sidebar-muted-fg);
+  padding: 0 0.5rem;
+  margin-bottom: 0.125rem;
+  transition:
+    opacity var(--tr-slow),
+    width var(--tr-slow);
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.nav-separator {
+  height: 1px;
+  background-color: var(--clr-sidebar-border);
+  margin: 0.5rem 0;
+}
+
+/* Lien de navigation */
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  padding: 0.5rem 0.625rem;
+  border-radius: var(--radius-md);
+  color: var(--clr-sidebar-fg);
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition:
+    background-color var(--tr-fast),
+    color var(--tr-fast);
+  white-space: nowrap;
+  overflow: hidden;
+  cursor: pointer;
+  background: none;
+  border: none;
+  width: 100%;
+  text-align: left;
+  margin-bottom: 0.125rem;
+}
+.nav-link:hover {
+  background-color: var(--clr-sidebar-accent);
+  color: var(--clr-sidebar-fg);
+}
+.nav-link.active {
+  background-color: color-mix(
+    in srgb,
+    var(--clr-sidebar-primary) 12%,
+    var(--clr-sidebar-bg)
+  );
+  color: var(--clr-sidebar-primary);
+  font-weight: 600;
+}
+.nav-link.active .icon {
+  color: var(--clr-sidebar-primary);
+}
+
+.nav-link .icon {
+  font-size: 1.125rem;
+  flex-shrink: 0;
+  color: var(--clr-sidebar-muted-fg);
+  transition: color var(--tr-fast);
+}
+.nav-link:hover .icon {
+  color: var(--clr-sidebar-fg);
+}
+
+.nav-label {
+  transition: opacity var(--tr-slow);
+  white-space: nowrap;
+}
+
+/* ─── Pied de la sidebar ─── */
+.sidebar-footer {
+  padding: 0.5rem;
+  border-top: 1px solid var(--clr-sidebar-border);
+  flex-shrink: 0;
+}
+
+/* ─────────────────────────────────────────────────────────
+   ZONE PRINCIPALE (droite de la sidebar)
+   ───────────────────────────────────────────────────────── */
+.main-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0; /* empêche le débordement */
+  transition: margin-left var(--tr-slow);
+}
+
+/* ─── Barre de header ─── */
+.app-header {
+  height: var(--header-h);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0 1rem;
+  border-bottom: 1px solid var(--clr-border);
+  background-color: var(--clr-bg);
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  flex-shrink: 0;
+}
+
+.header-title {
+  flex: 1;
+  font-size: 0.875rem;
+  color: var(--clr-muted-fg);
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* ─── Contenu principal ─── */
+.content {
+  flex: 1;
+  overflow: auto;
+  background-color: color-mix(in srgb, var(--clr-muted) 50%, var(--clr-bg));
+}
+
+/* ─────────────────────────────────────────────────────────
+   TOGGLE THÈME (bouton soleil/lune)
+   ───────────────────────────────────────────────────────── */
+.theme-toggle {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Icône soleil visible en thème clair, cachée en sombre */
+.theme-toggle .icon-sun {
+  display: block;
+}
+.theme-toggle .icon-moon {
+  display: none;
+}
+[data-theme="dark"] .theme-toggle .icon-sun {
+  display: none;
+}
+[data-theme="dark"] .theme-toggle .icon-moon {
+  display: block;
+}
+
+/* ─────────────────────────────────────────────────────────
+   PAGE DE CONNEXION (layout deux colonnes)
+   Equivalentdu composant AdminLogin, StudentLogin…
+   ───────────────────────────────────────────────────────── */
+.login-page {
+  min-height: 100vh;
+  display: flex;
+}
+
+/* ─── Panneau gauche (branding) ─── */
+.login-panel-left {
+  display: none; /* caché sur mobile */
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  background-color: var(--clr-primary);
+  align-items: center;
+  justify-content: center;
+}
+
+@media (min-width: 1024px) {
+  .login-panel-left {
+    display: flex;
+  }
+  .login-panel-right {
+    width: 50%;
+  }
+}
+
+.login-bg-gradient {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    var(--clr-primary),
+    var(--clr-secondary) 60%,
+    var(--clr-primary)
+  );
+  opacity: 0.95;
+}
+
+.login-bg-radial {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at 30% 50%,
+    hsl(160 84% 39% / 0.18) 0%,
+    transparent 55%
+  );
+}
+
+.login-panel-content {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: 3rem;
+  color: white;
+}
+
+.login-panel-icon {
+  width: 5rem;
+  height: 5rem;
+  border-radius: 1rem;
+  background: rgb(255 255 255 / 0.1);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 2rem;
+  color: white;
+  font-size: 2.5rem;
+}
+
+.login-panel-title {
+  font-size: 1.875rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  line-height: 1.2;
+}
+
+.login-panel-desc {
+  opacity: 0.85;
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  max-width: 28rem;
+}
+
+/* ─── Panneau droit (formulaire) ─── */
+.login-panel-right {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background-color: var(--clr-bg);
+}
+
+.login-form-box {
+  width: 100%;
+  max-width: 26rem;
+  animation: slideInRight var(--tr-slow) ease both;
+}
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-size: 0.875rem;
+  color: var(--clr-muted-fg);
+  margin-bottom: 2rem;
+  transition: color var(--tr-fast);
+  text-decoration: none;
+}
+.back-link:hover {
+  color: var(--clr-fg);
+}
+
+.login-form-box h1 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--clr-fg);
+  margin-bottom: 0.375rem;
+}
+.login-form-box .subtitle {
+  color: var(--clr-muted-fg);
+  font-size: 0.9375rem;
+  margin-bottom: 2rem;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.forgot-link {
+  font-size: 0.8125rem;
+  color: var(--clr-primary);
+  text-align: right;
+  display: block;
+  margin-top: -0.5rem;
+  text-decoration: none;
+  transition: opacity var(--tr-fast);
+}
+.forgot-link:hover {
+  opacity: 0.8;
+}
+
+/* ─────────────────────────────────────────────────────────
+   LANDING PAGE (accueil "/" = Index.tsx)
+   ───────────────────────────────────────────────────────── */
+
+/* ─── Navbar fixe ─── */
+.landing-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  border-bottom: 1px solid var(--clr-border);
+  background-color: color-mix(in srgb, var(--clr-bg) 85%, transparent);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.landing-nav-inner {
+  height: 4rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
+
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+.nav-brand-logo {
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: var(--radius-md);
+  background-color: var(--clr-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.25rem;
+}
+
+.nav-brand-name {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--clr-fg);
+}
+
+/* Liens du menu (desktop uniquement) */
+.nav-links {
+  display: none;
+  gap: 2rem;
+}
+@media (min-width: 768px) {
+  .nav-links {
+    display: flex;
+  }
+}
+
+.nav-link-text {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--clr-muted-fg);
+  text-decoration: none;
+  transition: color var(--tr-fast);
+}
+.nav-link-text:hover {
+  color: var(--clr-fg);
+}
+
+.nav-cta {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+/* ─── Section Hero ─── */
+.hero-section {
+  position: relative;
+  overflow: hidden;
+  padding-top: 8rem;
+  padding-bottom: 5rem;
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(
+      ellipse at 30% 30%,
+      color-mix(in srgb, var(--clr-primary) 6%, transparent),
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse at 70% 70%,
+      color-mix(in srgb, var(--clr-accent) 4%, transparent),
+      transparent 60%
+    );
+  pointer-events: none;
+}
+
+.hero-inner {
+  text-align: center;
+  position: relative;
+}
+
+.hero-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.375rem 1rem;
+  border: 1px solid var(--clr-border);
+  border-radius: var(--radius-full);
+  background-color: var(--clr-card);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--clr-muted-fg);
+  margin-bottom: 1.5rem;
+}
+
+.hero-pill-dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background-color: var(--clr-accent);
+  flex-shrink: 0;
+}
+
+.hero-title {
+  font-size: clamp(2rem, 5vw, 3.75rem);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  max-width: 52rem;
+  margin-inline: auto;
+  margin-bottom: 1.5rem;
+}
+
+.hero-subtitle {
+  font-size: clamp(1rem, 2vw, 1.125rem);
+  color: var(--clr-muted-fg);
+  max-width: 36rem;
+  margin-inline: auto;
+  margin-bottom: 2.5rem;
+  line-height: 1.7;
+}
+
+.hero-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: center;
+  margin-bottom: 4rem;
+}
+
+/* Prévisualisation (hero visual) */
+.hero-visual {
+  max-width: 900px;
+  margin-inline: auto;
+}
+
+.hero-visual-frame {
+  border: 1px solid var(--clr-border);
+  border-radius: var(--radius-xl);
+  background-color: var(--clr-card);
+  padding: 0.5rem;
+  box-shadow:
+    var(--shadow-2xl),
+    0 0 0 1px color-mix(in srgb, var(--clr-primary) 8%, transparent);
+}
+
+.hero-visual-inner {
+  border-radius: calc(var(--radius-xl) - 4px);
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--clr-primary) 8%, var(--clr-card)),
+    var(--clr-card),
+    color-mix(in srgb, var(--clr-accent) 6%, var(--clr-card))
+  );
+  padding: 2rem 2.5rem;
+}
+
+/* ─── Section Features ─── */
+.section-heading {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+.section-heading h2 {
+  font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-bottom: 1rem;
+}
+.section-heading p {
+  color: var(--clr-muted-fg);
+  max-width: 36rem;
+  margin-inline: auto;
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+.feature-card {
+  background-color: var(--clr-card);
+  border: 1px solid var(--clr-border);
+  border-radius: var(--radius-lg);
+  padding: 1.75rem;
+  transition:
+    box-shadow var(--tr),
+    transform var(--tr);
+}
+.feature-card:hover {
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-2px);
+}
+
+.feature-icon {
+  width: 3rem;
+  height: 3rem;
+  border-radius: var(--radius-md);
+  background-color: color-mix(in srgb, var(--clr-primary) 10%, transparent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+  color: var(--clr-primary);
+  font-size: 1.5rem;
+}
+
+.feature-title {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.feature-desc {
+  font-size: 0.875rem;
+  color: var(--clr-muted-fg);
+  line-height: 1.6;
+}
+
+/* ─── Section how it works ─── */
+.how-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.25rem;
+  padding: 1.5rem;
+  background-color: var(--clr-card);
+  border: 1px solid var(--clr-border);
+  border-radius: var(--radius-lg);
+}
+
+.step-number {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: var(--radius-full);
+  background-color: var(--clr-primary);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+.step-title {
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+.step-desc {
+  font-size: 0.875rem;
+  color: var(--clr-muted-fg);
+}
+
+/* ─── Section Hero stats cards ─── */
+.hero-stat-card {
+  background-color: var(--clr-card);
+  border: 1px solid var(--clr-border);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  text-align: center;
+}
+.hero-stat-value {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--clr-primary);
+  line-height: 1;
+  margin-bottom: 0.375rem;
+}
+.hero-stat-label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--clr-muted-fg);
+}
+
+/* ─── Footer Landing ─── */
+.landing-footer {
+  border-top: 1px solid var(--clr-border);
+  padding: 2rem 0;
+  text-align: center;
+  font-size: 0.875rem;
+  color: var(--clr-muted-fg);
+  margin-top: auto;
+}
+
+/* ─────────────────────────────────────────────────────────
+   PAGE 404
+   ───────────────────────────────────────────────────────── */
+.not-found-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 2rem;
+  gap: 1rem;
+}
+.not-found-code {
+  font-size: 6rem;
+  font-weight: 900;
+  line-height: 1;
+  background: linear-gradient(135deg, var(--clr-primary), var(--clr-secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.not-found-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+.not-found-desc {
+  color: var(--clr-muted-fg);
+  max-width: 28rem;
+}

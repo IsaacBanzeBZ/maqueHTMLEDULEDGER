@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tableau de bord — Admin EduLedger</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="../assets/css/main.css" />
+    <link rel="stylesheet" href="../assets/css/components.css" />
+    <link rel="stylesheet" href="../assets/css/layout.css" />
+    <style>
+        /* ---- Grilles spécifiques à la page dashboard ---- */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1rem;
+        }
+
+        .charts-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        @media (max-width: 900px) {
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .quick-actions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 0.75rem;
+        }
+
+        /* Carte de stat */
+        .stat-card {
+            background: var(--clr-card);
+            border: 1px solid var(--clr-border);
+            border-radius: var(--radius);
+            padding: 1.25rem 1.5rem;
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 1rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .stat-content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .stat-label {
+            font-size: 0.8125rem;
+            font-weight: 500;
+            color: var(--clr-muted-fg);
+            margin-bottom: 0.375rem;
+        }
+
+        .stat-value {
+            font-size: 1.875rem;
+            font-weight: 700;
+            color: var(--clr-fg);
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-trend {
+            font-size: 0.75rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            color: var(--clr-muted-fg);
+        }
+
+        .stat-trend.up {
+            color: var(--clr-accent);
+        }
+
+        .stat-trend.down {
+            color: var(--clr-destructive);
+        }
+
+        .stat-icon {
+            width: 2.75rem;
+            height: 2.75rem;
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            flex-shrink: 0;
+        }
+
+        /* Carte action rapide */
+        .quick-action-card {
+            background: var(--clr-card);
+            border: 1px solid var(--clr-border);
+            border-radius: var(--radius);
+            padding: 1.25rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 0.625rem;
+            cursor: pointer;
+            text-decoration: none;
+            color: var(--clr-fg);
+            transition: background-color 0.15s, box-shadow 0.15s, transform 0.15s;
+        }
+
+        .quick-action-card:hover {
+            background: var(--clr-muted);
+            box-shadow: var(--shadow-md);
+            transform: translateY(-2px);
+        }
+
+        .quick-action-icon {
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.125rem;
+        }
+
+        .quick-action-label {
+            font-size: 0.8125rem;
+            font-weight: 500;
+        }
+
+        /* Canvas chart container */
+        .chart-container {
+            position: relative;
+            height: 260px;
+            width: 100%;
+        }
+
+        canvas {
+            display: block;
+        }
+
+        /* Section title */
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 0.875rem;
+        }
+
+        .section-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--clr-fg);
+        }
+
+        .section-subtitle {
+            font-size: 0.8125rem;
+            color: var(--clr-muted-fg);
+        }
+
+        .page-content-inner {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            padding: 1.5rem;
+        }
+
+        /* Activités récentes */
+        .activity-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+
+        .activity-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.875rem;
+            padding: 0.875rem 0;
+            border-bottom: 1px solid var(--clr-border);
+        }
+
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+
+        .activity-dot {
+            width: 0.5rem;
+            height: 0.5rem;
+            border-radius: 9999px;
+            background-color: var(--clr-primary);
+            flex-shrink: 0;
+            margin-top: 0.375rem;
+        }
+
+        .activity-dot.green {
+            background-color: var(--clr-accent);
+        }
+
+        .activity-dot.orange {
+            background-color: hsl(25, 95%, 53%);
+        }
+
+        .activity-body {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .activity-text {
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .activity-time {
+            font-size: 0.75rem;
+            color: var(--clr-muted-fg);
+            margin-top: 0.125rem;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ═══════════════════════════════════════
+     SPRITES SVG INLINE (fonctionne en file://)
+     ═══════════════════════════════════════ -->
+    <svg style="display:none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <defs>
+            <symbol id="ic-dashboard" viewBox="0 0 24 24">
+                <rect width="7" height="9" x="3" y="3" rx="1" />
+                <rect width="7" height="5" x="14" y="3" rx="1" />
+                <rect width="7" height="9" x="14" y="12" rx="1" />
+                <rect width="7" height="5" x="3" y="16" rx="1" />
+            </symbol>
+            <symbol id="ic-users" viewBox="0 0 24 24">
+                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+                <circle cx="9" cy="7" r="4" />
+                <path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" />
+            </symbol>
+            <symbol id="ic-graduation" viewBox="0 0 24 24">
+                <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
+                <path d="M6 12v5c3 3 9 3 12 0v-5" />
+            </symbol>
+            <symbol id="ic-spreadsheet" viewBox="0 0 24 24">
+                <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z" />
+                <path d="M14 2v4a2 2 0 0 0 2 2h4" />
+                <path d="M8 13h2M14 13h2M8 17h2M14 17h2" />
+            </symbol>
+            <symbol id="ic-bar-chart" viewBox="0 0 24 24">
+                <path d="M18 20V10M12 20V4M6 20v-6" />
+            </symbol>
+            <symbol id="ic-calendar" viewBox="0 0 24 24">
+                <rect width="18" height="18" x="3" y="4" rx="2" />
+                <line x1="16" y1="2" x2="16" y2="6" />
+                <line x1="8" y1="2" x2="8" y2="6" />
+                <line x1="3" y1="10" x2="21" y2="10" />
+            </symbol>
+            <symbol id="ic-bell" viewBox="0 0 24 24">
+                <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" />
+                <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" />
+            </symbol>
+            <symbol id="ic-activity" viewBox="0 0 24 24">
+                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+            </symbol>
+            <symbol id="ic-settings" viewBox="0 0 24 24">
+                <path
+                    d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z" />
+                <circle cx="12" cy="12" r="3" />
+            </symbol>
+            <symbol id="ic-logout" viewBox="0 0 24 24">
+                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                <polyline points="16 17 21 12 16 7" />
+                <line x1="21" y1="12" x2="9" y2="12" />
+            </symbol>
+            <symbol id="ic-sun" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="4" />
+                <path
+                    d="M12 2v2M12 20v2m-7.07-14.07 1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2m-4.93-7.07-1.41 1.41M6.34 17.66l-1.41 1.41" />
+            </symbol>
+            <symbol id="ic-moon" viewBox="0 0 24 24">
+                <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
+            </symbol>
+            <symbol id="ic-menu" viewBox="0 0 24 24">
+                <line x1="4" y1="12" x2="20" y2="12" />
+                <line x1="4" y1="6" x2="20" y2="6" />
+                <line x1="4" y1="18" x2="20" y2="18" />
+            </symbol>
+            <symbol id="ic-plus" viewBox="0 0 24 24">
+                <line x1="12" y1="5" x2="12" y2="19" />
+                <line x1="5" y1="12" x2="19" y2="12" />
+            </symbol>
+            <symbol id="ic-upload" viewBox="0 0 24 24">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                <polyline points="17 8 12 3 7 8" />
+                <line x1="12" y1="3" x2="12" y2="15" />
+            </symbol>
+            <symbol id="ic-download" viewBox="0 0 24 24">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                <polyline points="7 10 12 15 17 10" />
+                <line x1="12" y1="15" x2="12" y2="3" />
+            </symbol>
+            <symbol id="ic-trending-up" viewBox="0 0 24 24">
+                <polyline points="22 7 13.5 15.5 8.5 10.5 2 17" />
+                <polyline points="16 7 22 7 22 13" />
+            </symbol>
+            <symbol id="ic-award" viewBox="0 0 24 24">
+                <circle cx="12" cy="8" r="6" />
+                <path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11" />
+            </symbol>
+        </defs>
+    </svg>
+
+    <div class="app">
+        <!-- ════════════════════════════════
+       SIDEBAR ADMIN
+       ════════════════════════════════ -->
+        <aside class="sidebar" id="sidebar" aria-label="Navigation admin">
+            <div class="sidebar-header">
+                <a class="sidebar-brand" href="dashboard.html">
+                    <div class="sidebar-logo">E</div>
+                    <span class="sidebar-brand-name">EduLedger</span>
+                </a>
+            </div>
+
+            <nav class="sidebar-nav">
+                <div class="nav-group">
+                    <p class="nav-group-label">Navigation</p>
+                    <a class="nav-link active" href="dashboard.html" aria-current="page">
+                        <svg class="icon" aria-hidden="true">
+                            <use href="#ic-dashboard" />
+                        </svg>
+                        <span class="nav-label">Tableau de bord</span>
+                    </a>
+                    <a class="nav-link" href="students.html">
+                        <svg class="icon" aria-hidden="true">
+                            <use href="#ic-users" />
+                        </svg>
+                        <span class="nav-label">Étudiants</span>
+                    </a>
+                    <a class="nav-link" href="promotions.html">
+                        <svg class="icon" aria-hidden="true">
+                            <use href="#ic-graduation" />
+                        </svg>
+                        <span class="nav-label">Promotions</span>
+                    </a>
+                    <a class="nav-link" href="import.html">
+                        <svg class="icon" aria-hidden="true">
+                            <use href="#ic-upload" />
+                        </svg>
+                        <span class="nav-label">Import Excel</span>
+                    </a>
+                    <a class="nav-link" href="results.html">
+                        <svg class="icon" aria-hidden="true">
+                            <use href="#ic-bar-chart" />
+                        </svg>
+                        <span class="nav-label">Résultats</span>
+                    </a>
+                </div>
+
+                <div class="nav-group">
+                    <p class="nav-group-label">Configuration</p>
+                    <a class="nav-link" href="academic-years.html">
+                        <svg class="icon" aria-hidden="true">
+                            <use href="#ic-calendar" />
+                        </svg>
+                        <span class="nav-label">Années académiques</span>
+                    </a>
+                    <a class="nav-link" href="activity.html">
+                        <svg class="icon" aria-hidden="true">
+                            <use href="#ic-activity" />
+                        </svg>
+                        <span class="nav-label">Historique</span>
+                    </a>
+                    <a class="nav-link" href="notifications.html">
+                        <svg class="icon" aria-hidden="true">
+                            <use href="#ic-bell" />
+                        </svg>
+                        <span class="nav-label">Notifications</span>
+                    </a>
+                    <a class="nav-link" href="settings.html">
+                        <svg class="icon" aria-hidden="true">
+                            <use href="#ic-settings" />
+                        </svg>
+                        <span class="nav-label">Paramètres</span>
+                    </a>
+                </div>
+            </nav>
+
+            <div class="sidebar-footer">
+                <a class="nav-link" href="../login/">
+                    <svg class="icon" aria-hidden="true">
+                        <use href="#ic-logout" />
+                    </svg>
+                    <span class="nav-label">Déconnexion</span>
+                </a>
+            </div>
+        </aside>
+
+        <div id="mobileOverlay" class="mobile-overlay"></div>
+
+        <!-- ════════════════════════════════
+       ZONE PRINCIPALE
+       ════════════════════════════════ -->
+        <div class="main-area">
+            <header class="app-header">
+                <button class="btn-icon" id="sidebarToggle" aria-label="Réduire la navigation">
+                    <svg class="icon" style="font-size:1.125rem" aria-hidden="true">
+                        <use href="#ic-menu" />
+                    </svg>
+                </button>
+
+                <nav aria-label="Fil d'ariane" style="font-size:0.8125rem;color:var(--clr-muted-fg)">
+                    Administration
+                    <span style="margin-inline:0.25rem">/</span>
+                    <span style="color:var(--clr-fg);font-weight:500">Tableau de bord</span>
+                </nav>
+
+                <div class="header-actions">
+                    <button class="btn btn-primary btn-sm" onclick="location.href='import.html'">
+                        <svg class="icon" aria-hidden="true">
+                            <use href="#ic-upload" />
+                        </svg>
+                        Importer
+                    </button>
+                    <button class="btn-icon theme-toggle" id="themeToggle" aria-label="Basculer le thème">
+                        <svg class="icon icon-sun" style="font-size:1.125rem" aria-hidden="true">
+                            <use href="#ic-sun" />
+                        </svg>
+                        <svg class="icon icon-moon" style="font-size:1.125rem" aria-hidden="true">
+                            <use href="#ic-moon" />
+                        </svg>
+                    </button>
+                </div>
+            </header>
+
+            <main class="content" id="main-content">
+                <div class="page-content-inner">
+
+                    <!-- Titre de page -->
+                    <div>
+                        <h1 style="font-size:1.5rem;font-weight:700;letter-spacing:-0.02em">Tableau de bord</h1>
+                        <p style="font-size:0.875rem;color:var(--clr-muted-fg);margin-top:0.25rem">
+                            Vue d'ensemble de votre établissement — Année 2024-2025
+                        </p>
+                    </div>
+
+                    <!-- ── Statistiques ─────────────────────────── -->
+                    <div class="stats-grid">
+                        <!-- Étudiants -->
+                        <article class="stat-card anim-slide-up">
+                            <div class="stat-content">
+                                <p class="stat-label">Total étudiants</p>
+                                <p class="stat-value">1 248</p>
+                                <span class="stat-trend up">
+                                    <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor"
+                                        stroke-width="2.5" aria-hidden="true">
+                                        <polyline points="22 7 13.5 15.5 8.5 10.5 2 17" />
+                                        <polyline points="16 7 22 7 22 13" />
+                                    </svg>
+                                    +12 ce mois
+                                </span>
+                            </div>
+                            <div class="stat-icon"
+                                style="background:color-mix(in srgb,var(--clr-primary) 10%,transparent);color:var(--clr-primary)">
+                                <svg class="icon" aria-hidden="true">
+                                    <use href="#ic-users" />
+                                </svg>
+                            </div>
+                        </article>
+
+                        <!-- Promotions -->
+                        <article class="stat-card anim-slide-up delay-1">
+                            <div class="stat-content">
+                                <p class="stat-label">Promotions actives</p>
+                                <p class="stat-value">18</p>
+                                <span class="stat-trend" style="color:var(--clr-muted-fg)">3 filières</span>
+                            </div>
+                            <div class="stat-icon"
+                                style="background:color-mix(in srgb,var(--clr-accent) 10%,transparent);color:var(--clr-accent)">
+                                <svg class="icon" aria-hidden="true">
+                                    <use href="#ic-graduation" />
+                                </svg>
+                            </div>
+                        </article>
+
+                        <!-- Matières -->
+                        <article class="stat-card anim-slide-up delay-2">
+                            <div class="stat-content">
+                                <p class="stat-label">Matières au total</p>
+                                <p class="stat-value">64</p>
+                                <span class="stat-trend up">
+                                    <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor"
+                                        stroke-width="2.5" aria-hidden="true">
+                                        <polyline points="22 7 13.5 15.5 8.5 10.5 2 17" />
+                                        <polyline points="16 7 22 7 22 13" />
+                                    </svg>
+                                    Moyenne : 12,4 / 20
+                                </span>
+                            </div>
+                            <div class="stat-icon"
+                                style="background:color-mix(in srgb,hsl(260,75%,52%) 10%,transparent);color:hsl(260,75%,52%)">
+                                <svg class="icon" aria-hidden="true">
+                                    <use href="#ic-bar-chart" />
+                                </svg>
+                            </div>
+                        </article>
+
+                        <!-- Imports -->
+                        <article class="stat-card anim-slide-up delay-3">
+                            <div class="stat-content">
+                                <p class="stat-label">Imports ce semestre</p>
+                                <p class="stat-value">32</p>
+                                <span class="stat-trend up">
+                                    <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor"
+                                        stroke-width="2.5" aria-hidden="true">
+                                        <polyline points="22 7 13.5 15.5 8.5 10.5 2 17" />
+                                        <polyline points="16 7 22 7 22 13" />
+                                    </svg>
+                                    Dernier : il y a 2 jours
+                                </span>
+                            </div>
+                            <div class="stat-icon"
+                                style="background:color-mix(in srgb,hsl(43,96%,56%) 15%,transparent);color:hsl(43,70%,40%)">
+                                <svg class="icon" aria-hidden="true">
+                                    <use href="#ic-upload" />
+                                </svg>
+                            </div>
+                        </article>
+                    </div>
+
+                    <!-- ── Actions rapides ───────────────────────── -->
+                    <section aria-labelledby="quick-actions-title">
+                        <div class="section-header">
+                            <h2 class="section-title" id="quick-actions-title">Actions rapides</h2>
+                        </div>
+                        <div class="quick-actions-grid">
+                            <a class="quick-action-card" href="import.html">
+                                <div class="quick-action-icon"
+                                    style="background:color-mix(in srgb,var(--clr-primary) 10%,transparent);color:var(--clr-primary)">
+                                    <svg class="icon" aria-hidden="true">
+                                        <use href="#ic-upload" />
+                                    </svg>
+                                </div>
+                                <span class="quick-action-label">Importer des résultats</span>
+                            </a>
+                            <a class="quick-action-card" href="students.html">
+                                <div class="quick-action-icon"
+                                    style="background:color-mix(in srgb,var(--clr-accent) 10%,transparent);color:var(--clr-accent)">
+                                    <svg class="icon" aria-hidden="true">
+                                        <use href="#ic-users" />
+                                    </svg>
+                                </div>
+                                <span class="quick-action-label">Gérer les étudiants</span>
+                            </a>
+                            <a class="quick-action-card" href="promotions.html">
+                                <div class="quick-action-icon"
+                                    style="background:color-mix(in srgb,hsl(260,75%,52%) 10%,transparent);color:hsl(260,75%,52%)">
+                                    <svg class="icon" aria-hidden="true">
+                                        <use href="#ic-graduation" />
+                                    </svg>
+                                </div>
+                                <span class="quick-action-label">Voir les promotions</span>
+                            </a>
+                            <a class="quick-action-card" href="results.html">
+                                <div class="quick-action-icon"
+                                    style="background:color-mix(in srgb,hsl(43,96%,56%) 15%,transparent);color:hsl(43,70%,40%)">
+                                    <svg class="icon" aria-hidden="true">
+                                        <use href="#ic-bar-chart" />
+                                    </svg>
+                                </div>
+                                <span class="quick-action-label">Consulter les résultats</span>
+                            </a>
+                            <a class="quick-action-card" href="academic-years.html">
+                                <div class="quick-action-icon"
+                                    style="background:color-mix(in srgb,hsl(0,84%,60%) 10%,transparent);color:hsl(0,84%,60%)">
+                                    <svg class="icon" aria-hidden="true">
+                                        <use href="#ic-calendar" />
+                                    </svg>
+                                </div>
+                                <span class="quick-action-label">Années académiques</span>
+                            </a>
+                        </div>
+                    </section>
+
+                    <!-- ── Graphiques ────────────────────────────── -->
+                    <div class="charts-grid">
+                        <!-- Graphique 1 : Moyenne par promotion (BarChart) -->
+                        <section class="card anim-fade-in">
+                            <div class="card-header">
+                                <h2 class="card-title">Moyenne par promotion</h2>
+                                <p class="card-description">Semestre en cours — sur 20 points</p>
+                            </div>
+                            <div class="card-content">
+                                <div class="chart-container">
+                                    <canvas id="chartPromoAvg" style="width:100%;height:100%"></canvas>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- Graphique 2 : Imports par mois (LineChart) -->
+                        <section class="card anim-fade-in delay-1">
+                            <div class="card-header">
+                                <h2 class="card-title">Imports par mois</h2>
+                                <p class="card-description">Mises à jour des notes ce semestre</p>
+                            </div>
+                            <div class="card-content">
+                                <div class="chart-container">
+                                    <canvas id="chartImports" style="width:100%;height:100%"></canvas>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- Graphique 3 : Distribution des notes (PieChart) -->
+                        <section class="card anim-fade-in delay-2">
+                            <div class="card-header">
+                                <h2 class="card-title">Distribution des notes</h2>
+                                <p class="card-description">Répartition de toutes les promotions</p>
+                            </div>
+                            <div class="card-content">
+                                <div style="display:flex;align-items:center;gap:1.5rem">
+                                    <div class="chart-container" style="height:220px;flex:1">
+                                        <canvas id="chartDistrib" style="width:100%;height:100%"></canvas>
+                                    </div>
+                                    <!-- Légende -->
+                                    <ul
+                                        style="font-size:0.75rem;display:flex;flex-direction:column;gap:0.5rem;min-width:120px">
+                                        <li style="display:flex;align-items:center;gap:0.5rem"><span
+                                                style="width:10px;height:10px;border-radius:50%;background:#2563eb;flex-shrink:0"></span>Très
+                                            bien (≥16)</li>
+                                        <li style="display:flex;align-items:center;gap:0.5rem"><span
+                                                style="width:10px;height:10px;border-radius:50%;background:#10b981;flex-shrink:0"></span>Bien
+                                            (14–15)</li>
+                                        <li style="display:flex;align-items:center;gap:0.5rem"><span
+                                                style="width:10px;height:10px;border-radius:50%;background:#8b5cf6;flex-shrink:0"></span>Assez
+                                            bien (12–13)</li>
+                                        <li style="display:flex;align-items:center;gap:0.5rem"><span
+                                                style="width:10px;height:10px;border-radius:50%;background:#f59e0b;flex-shrink:0"></span>Passable
+                                            (10–11)</li>
+                                        <li style="display:flex;align-items:center;gap:0.5rem"><span
+                                                style="width:10px;height:10px;border-radius:50%;background:#ef4444;flex-shrink:0"></span>Insuffisant
+                                            (&lt;10)</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- Activités récentes -->
+                        <section class="card anim-fade-in delay-3">
+                            <div class="card-header">
+                                <h2 class="card-title">Activités récentes</h2>
+                                <a href="activity.html" style="font-size:0.8125rem;color:var(--clr-primary)">Voir
+                                    tout</a>
+                            </div>
+                            <div class="card-content">
+                                <ul class="activity-list" aria-label="Activités récentes">
+                                    <li class="activity-item">
+                                        <span class="activity-dot"></span>
+                                        <div class="activity-body">
+                                            <p class="activity-text">Import résultats L3 Informatique</p>
+                                            <p class="activity-time">Aujourd'hui, 14:32 · Julie Martin</p>
+                                        </div>
+                                    </li>
+                                    <li class="activity-item">
+                                        <span class="activity-dot green"></span>
+                                        <div class="activity-body">
+                                            <p class="activity-text">12 nouveaux étudiants ajoutés — L1 Droit</p>
+                                            <p class="activity-time">Hier, 09:17 · Admin</p>
+                                        </div>
+                                    </li>
+                                    <li class="activity-item">
+                                        <span class="activity-dot"></span>
+                                        <div class="activity-body">
+                                            <p class="activity-text">Mise à jour résultats S2 — L2 Médecine</p>
+                                            <p class="activity-time">Il y a 2 jours · Marc Dupont</p>
+                                        </div>
+                                    </li>
+                                    <li class="activity-item">
+                                        <span class="activity-dot orange"></span>
+                                        <div class="activity-body">
+                                            <p class="activity-text">Correction note Math (étudiant ETU-2023-0042)</p>
+                                            <p class="activity-time">Il y a 3 jours · Admin</p>
+                                        </div>
+                                    </li>
+                                    <li class="activity-item">
+                                        <span class="activity-dot green"></span>
+                                        <div class="activity-body">
+                                            <p class="activity-text">Nouvelle promotion créée — M2 Data Science</p>
+                                            <p class="activity-time">Il y a 5 jours · Admin</p>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </section>
+                    </div>
+
+                </div><!-- /page-content-inner -->
+            </main>
+        </div><!-- /main-area -->
+    </div><!-- /app -->
+
+    <!-- ══════════════════════════════════
+     SCRIPTS
+     ══════════════════════════════════ -->
+    <script src="../assets/js/app.js"></script>
+    <script src="../assets/js/charts.js"></script>
+    <script>
+        // Dessine (ou re-dessine) tous les graphiques du dashboard
+        function drawDashboardCharts() {
+
+            // ── Graphique 1 : Moyenne par promotion (barres) ──
+            EduCharts.bar(
+                'chartPromoAvg',
+                ['L1 Info', 'L2 Info', 'L3 Info', 'L1 Droit', 'L2 Droit', 'L1 Méd'],
+                [12.4, 13.8, 14.2, 11.6, 12.9, 13.1],
+                { unit: '/20', thresholdY: 10, thresholdLabel: 'Seuil 10/20' }
+            );
+
+            // ── Graphique 2 : Imports par mois (ligne) ──
+            EduCharts.line(
+                'chartImports',
+                ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Juin'],
+                [{ label: 'Imports', values: [4, 7, 5, 9, 6, 8], fill: true }],
+                { unit: ' imports' }
+            );
+
+            // ── Graphique 3 : Distribution des notes (camembert) ──
+            EduCharts.pie(
+                'chartDistrib',
+                [
+                    { label: 'Très bien', value: 18, color: '#2563eb' },
+                    { label: 'Bien', value: 25, color: '#10b981' },
+                    { label: 'Assez bien', value: 32, color: '#8b5cf6' },
+                    { label: 'Passable', value: 17, color: '#f59e0b' },
+                    { label: 'Insuffisant', value: 8, color: '#ef4444' },
+                ],
+                { donut: true, showTotal: true }
+            );
+        }
+
+        // Re-dessine quand le thème change (gestion dark/light)
+        EduCharts.watchTheme(drawDashboardCharts);
+    </script>
+</body>
+
+</html>

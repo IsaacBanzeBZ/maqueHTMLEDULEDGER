@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mon tableau de bord — EduLedger</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="../assets/css/main.css" />
+    <link rel="stylesheet" href="../assets/css/components.css" />
+    <link rel="stylesheet" href="../assets/css/layout.css" />
+    <style>
+        .page-inner {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            padding: 1.5rem
+        }
+
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+            gap: 1rem
+        }
+
+        .stat-card {
+            padding: 1.25rem;
+            display: flex;
+            flex-direction: column;
+            gap: .5rem
+        }
+
+        .stat-label {
+            font-size: .8125rem;
+            color: var(--clr-muted-fg);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: .04em
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            line-height: 1
+        }
+
+        .stat-sub {
+            font-size: .8125rem;
+            color: var(--clr-muted-fg)
+        }
+
+        .stat-icon {
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: .5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: .25rem
+        }
+
+        .charts-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 1rem
+        }
+
+        @media(max-width:700px) {
+            .charts-row {
+                grid-template-columns: 1fr
+            }
+        }
+
+        .badge-rank {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 2rem;
+            height: 2rem;
+            border-radius: 50%;
+            background: color-mix(in srgb, var(--clr-accent) 15%, transparent);
+            color: var(--clr-accent);
+            font-weight: 700;
+            font-size: .75rem
+        }
+    </style>
+</head>
+
+<body>
+    <svg style="display:none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <defs>
+            <symbol id="ic-dashboard" viewBox="0 0 24 24">
+                <rect width="7" height="9" x="3" y="3" rx="1" />
+                <rect width="7" height="5" x="14" y="3" rx="1" />
+                <rect width="7" height="9" x="14" y="12" rx="1" />
+                <rect width="7" height="5" x="3" y="16" rx="1" />
+            </symbol>
+            <symbol id="ic-file-text" viewBox="0 0 24 24">
+                <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" />
+                <polyline points="14 2 14 8 20 8" />
+                <line x1="16" y1="13" x2="8" y2="13" />
+                <line x1="16" y1="17" x2="8" y2="17" />
+                <line x1="10" y1="9" x2="8" y2="9" />
+            </symbol>
+            <symbol id="ic-trend" viewBox="0 0 24 24">
+                <polyline points="22 7 13.5 15.5 8.5 10.5 2 17" />
+                <polyline points="16 7 22 7 22 13" />
+            </symbol>
+            <symbol id="ic-history" viewBox="0 0 24 24">
+                <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+                <path d="M3 3v5h5" />
+                <path d="M12 7v5l4 2" />
+            </symbol>
+            <symbol id="ic-settings" viewBox="0 0 24 24">
+                <path
+                    d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z" />
+                <circle cx="12" cy="12" r="3" />
+            </symbol>
+            <symbol id="ic-logout" viewBox="0 0 24 24">
+                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                <polyline points="16 17 21 12 16 7" />
+                <line x1="21" y1="12" x2="9" y2="12" />
+            </symbol>
+            <symbol id="ic-sun" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="4" />
+                <path
+                    d="M12 2v2M12 20v2m-7.07-14.07 1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2m-4.93-7.07-1.41 1.41M6.34 17.66l-1.41 1.41" />
+            </symbol>
+            <symbol id="ic-moon" viewBox="0 0 24 24">
+                <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
+            </symbol>
+            <symbol id="ic-menu" viewBox="0 0 24 24">
+                <line x1="4" y1="12" x2="20" y2="12" />
+                <line x1="4" y1="6" x2="20" y2="6" />
+                <line x1="4" y1="18" x2="20" y2="18" />
+            </symbol>
+            <symbol id="ic-award" viewBox="0 0 24 24">
+                <circle cx="12" cy="8" r="6" />
+                <path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11" />
+            </symbol>
+            <symbol id="ic-book" viewBox="0 0 24 24">
+                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+            </symbol>
+            <symbol id="ic-check-circle" viewBox="0 0 24 24">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                <polyline points="22 4 12 14.01 9 11.01" />
+            </symbol>
+        </defs>
+    </svg>
+
+    <div class="app">
+        <aside class="sidebar" id="sidebar" aria-label="Navigation étudiant">
+            <div class="sidebar-header"><a class="sidebar-brand" href="dashboard.html">
+                    <div class="sidebar-logo" style="background:var(--clr-accent)">E</div><span
+                        class="sidebar-brand-name">EduLedger</span>
+                </a></div>
+            <nav class="sidebar-nav">
+                <div class="nav-group">
+                    <p class="nav-group-label">Mon espace</p>
+                    <a class="nav-link active" href="dashboard.html" aria-current="page"><svg class="icon"
+                            aria-hidden="true">
+                            <use href="#ic-dashboard" />
+                        </svg><span class="nav-label">Tableau de bord</span></a>
+                    <a class="nav-link" href="results.html"><svg class="icon" aria-hidden="true">
+                            <use href="#ic-file-text" />
+                        </svg><span class="nav-label">Mes résultats</span></a>
+                    <a class="nav-link" href="performance.html"><svg class="icon" aria-hidden="true">
+                            <use href="#ic-trend" />
+                        </svg><span class="nav-label">Ma progression</span></a>
+                    <a class="nav-link" href="history.html"><svg class="icon" aria-hidden="true">
+                            <use href="#ic-history" />
+                        </svg><span class="nav-label">Historique</span></a>
+                </div>
+                <div class="nav-group">
+                    <p class="nav-group-label">Compte</p>
+                    <a class="nav-link" href="settings.html"><svg class="icon" aria-hidden="true">
+                            <use href="#ic-settings" />
+                        </svg><span class="nav-label">Paramètres</span></a>
+                </div>
+            </nav>
+            <div class="sidebar-footer"><a class="nav-link" href="../login/"><svg class="icon"
+                        aria-hidden="true">
+                        <use href="#ic-logout" />
+                    </svg><span class="nav-label">Déconnexion</span></a></div>
+        </aside>
+        <div id="mobileOverlay" class="mobile-overlay"></div>
+
+        <div class="main-area">
+            <header class="app-header">
+                <button class="btn-icon" id="sidebarToggle" aria-label="Réduire la navigation"><svg class="icon"
+                        style="font-size:1.125rem" aria-hidden="true">
+                        <use href="#ic-menu" />
+                    </svg></button>
+                <nav aria-label="Fil d'ariane" style="font-size:0.8125rem;color:var(--clr-muted-fg)"> <span
+                        style="color:var(--clr-fg);font-weight:500">Tableau de bord</span></nav>
+                <div class="header-actions">
+                    <span style="font-size:.8125rem;color:var(--clr-muted-fg);margin-right:.5rem">Konan Yves —
+                        ETU-2024-0087</span>
+                    <button class="btn-icon theme-toggle" id="themeToggle" aria-label="Basculer le thème">
+                        <svg class="icon icon-sun" style="font-size:1.125rem" aria-hidden="true">
+                            <use href="#ic-sun" />
+                        </svg>
+                        <svg class="icon icon-moon" style="font-size:1.125rem" aria-hidden="true">
+                            <use href="#ic-moon" />
+                        </svg>
+                    </button>
+                </div>
+            </header>
+
+            <main class="content">
+                <div class="page-inner">
+                    <div>
+                        <h1 style="font-size:1.5rem;font-weight:700;letter-spacing:-0.02em">Bonjour, Yves 👋</h1>
+                        <p style="font-size:0.875rem;color:var(--clr-muted-fg);margin-top:0.25rem">L3 Informatique —
+                            Semestre 2 · Année 2024-2025</p>
+                    </div>
+
+                    <div class="stat-grid">
+                        <div class="card stat-card">
+                            <div class="stat-icon"
+                                style="background:color-mix(in srgb,var(--clr-accent) 12%,transparent)"><svg
+                                    class="icon" style="color:var(--clr-accent)" aria-hidden="true">
+                                    <use href="#ic-award" />
+                                </svg></div>
+                            <span class="stat-label">Moyenne générale</span>
+                            <span class="stat-value" style="color:var(--clr-accent)">14,6</span>
+                            <span class="stat-sub">/20 — Bien</span>
+                        </div>
+                        <div class="card stat-card">
+                            <div class="stat-icon"
+                                style="background:color-mix(in srgb,var(--clr-primary) 12%,transparent)"><svg
+                                    class="icon" style="color:var(--clr-primary)" aria-hidden="true">
+                                    <use href="#ic-trend" />
+                                </svg></div>
+                            <span class="stat-label">Rang dans la promo</span>
+                            <span class="stat-value" style="color:var(--clr-primary)">3<sup
+                                    style="font-size:.875rem">e</sup></span>
+                            <span class="stat-sub">sur 64 étudiants</span>
+                        </div>
+                        <div class="card stat-card">
+                            <div class="stat-icon"
+                                style="background:color-mix(in srgb,var(--clr-highlight) 12%,transparent)"><svg
+                                    class="icon" style="color:hsl(43,80%,40%)" aria-hidden="true">
+                                    <use href="#ic-book" />
+                                </svg></div>
+                            <span class="stat-label">Matières suivies</span>
+                            <span class="stat-value">8</span>
+                            <span class="stat-sub">ce semestre</span>
+                        </div>
+                        <div class="card stat-card">
+                            <div class="stat-icon"
+                                style="background:color-mix(in srgb,var(--clr-primary) 12%,transparent)"><svg
+                                    class="icon" style="color:var(--clr-primary)" aria-hidden="true">
+                                    <use href="#ic-check-circle" />
+                                </svg></div>
+                            <span class="stat-label">Crédits validés</span>
+                            <span class="stat-value">48</span>
+                            <span class="stat-sub">sur 60 au total</span>
+                        </div>
+                    </div>
+
+                    <div class="charts-row">
+                        <section class="card">
+                            <div class="card-header">
+                                <h2 class="card-title">Notes par matière</h2>
+                                <p class="card-description">Semestre 2 · 2024-2025</p>
+                            </div>
+                            <div class="card-content"><canvas id="chartSubjects" height="180"></canvas></div>
+                        </section>
+                        <section class="card">
+                            <div class="card-header">
+                                <h2 class="card-title">Répartition</h2>
+                                <p class="card-description">Niveau de maîtrise</p>
+                            </div>
+                            <div class="card-content"><canvas id="chartPie" height="180"></canvas></div>
+                        </section>
+                    </div>
+
+                    <section class="card">
+                        <div class="card-header">
+                            <h2 class="card-title">Dernières notes enregistrées</h2>
+                        </div>
+                        <div class="card-content" style="padding:0;overflow-x:auto">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Matière</th>
+                                        <th>UE</th>
+                                        <th>Coefficient</th>
+                                        <th>Note</th>
+                                        <th>Mention</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Algorithmique avancée</td>
+                                        <td>UE1</td>
+                                        <td>4</td>
+                                        <td style="font-weight:600;color:hsl(142,72%,29%)">16/20</td>
+                                        <td><span class="badge badge-success">Bien</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Réseaux informatiques</td>
+                                        <td>UE1</td>
+                                        <td>3</td>
+                                        <td style="font-weight:600;color:hsl(142,72%,29%)">15/20</td>
+                                        <td><span class="badge badge-success">Bien</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Base de données</td>
+                                        <td>UE2</td>
+                                        <td>4</td>
+                                        <td style="font-weight:600;color:hsl(217,84%,45%)">13/20</td>
+                                        <td><span class="badge badge-outline">Passable</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Analyse numérique</td>
+                                        <td>UE2</td>
+                                        <td>2</td>
+                                        <td style="font-weight:600;color:hsl(0,72%,51%)">8/20</td>
+                                        <td><span class="badge badge-destructive">Insuffisant</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Probabilités et stats</td>
+                                        <td>UE3</td>
+                                        <td>3</td>
+                                        <td style="font-weight:600;color:hsl(217,84%,45%)">14/20</td>
+                                        <td><span class="badge badge-success">Bien</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="../assets/js/app.js"></script>
+    <script src="../assets/js/charts.js"></script>
+    <script>
+        function drawStudentCharts() {
+            EduCharts.bar('chartSubjects',
+                ['Algo.', 'Réseaux', 'BDD', 'Analyse num.', 'Proba.', 'POO', 'Syst. Op.', 'Anglais'],
+                [16, 15, 13, 8, 14, 17, 12, 15],
+                { unit: '/20', thresholdY: 10, thresholdLabel: 'Barre de passage' }
+            );
+            EduCharts.pie('chartPie', [
+                { label: 'Excellent (≥16)', value: 3, color: '#2563eb' },
+                { label: 'Bien (14-15)', value: 3, color: '#10b981' },
+                { label: 'Passable (10-13)', value: 1, color: '#f59e0b' },
+                { label: 'Insuffisant (<10)', value: 1, color: '#ef4444' }
+            ], { donut: true, showTotal: true });
+        }
+        drawStudentCharts();
+        EduCharts.watchTheme(drawStudentCharts);
+    </script>
+</body>
+
+</html>

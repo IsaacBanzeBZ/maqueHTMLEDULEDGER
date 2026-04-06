@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mes résultats — EduLedger</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="../assets/css/main.css" />
+    <link rel="stylesheet" href="../assets/css/components.css" />
+    <link rel="stylesheet" href="../assets/css/layout.css" />
+    <style>
+        .page-inner {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            padding: 1.5rem
+        }
+
+        .grade-high {
+            color: hsl(142, 72%, 29%);
+            font-weight: 600
+        }
+
+        .grade-mid {
+            color: hsl(38, 92%, 40%);
+            font-weight: 600
+        }
+
+        .grade-low {
+            color: hsl(0, 72%, 51%);
+            font-weight: 600
+        }
+
+        .ue-header {
+            background: var(--clr-muted);
+            font-weight: 600;
+            font-size: .8125rem;
+            color: var(--clr-muted-fg)
+        }
+
+        .total-row {
+            font-weight: 700;
+            background: color-mix(in srgb, var(--clr-primary) 5%, transparent)
+        }
+    </style>
+</head>
+
+<body>
+    <svg style="display:none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <defs>
+            <symbol id="ic-dashboard" viewBox="0 0 24 24">
+                <rect width="7" height="9" x="3" y="3" rx="1" />
+                <rect width="7" height="5" x="14" y="3" rx="1" />
+                <rect width="7" height="9" x="14" y="12" rx="1" />
+                <rect width="7" height="5" x="3" y="16" rx="1" />
+            </symbol>
+            <symbol id="ic-file-text" viewBox="0 0 24 24">
+                <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" />
+                <polyline points="14 2 14 8 20 8" />
+                <line x1="16" y1="13" x2="8" y2="13" />
+                <line x1="16" y1="17" x2="8" y2="17" />
+                <line x1="10" y1="9" x2="8" y2="9" />
+            </symbol>
+            <symbol id="ic-trend" viewBox="0 0 24 24">
+                <polyline points="22 7 13.5 15.5 8.5 10.5 2 17" />
+                <polyline points="16 7 22 7 22 13" />
+            </symbol>
+            <symbol id="ic-history" viewBox="0 0 24 24">
+                <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+                <path d="M3 3v5h5" />
+                <path d="M12 7v5l4 2" />
+            </symbol>
+            <symbol id="ic-settings" viewBox="0 0 24 24">
+                <path
+                    d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z" />
+                <circle cx="12" cy="12" r="3" />
+            </symbol>
+            <symbol id="ic-logout" viewBox="0 0 24 24">
+                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                <polyline points="16 17 21 12 16 7" />
+                <line x1="21" y1="12" x2="9" y2="12" />
+            </symbol>
+            <symbol id="ic-sun" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="4" />
+                <path
+                    d="M12 2v2M12 20v2m-7.07-14.07 1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2m-4.93-7.07-1.41 1.41M6.34 17.66l-1.41 1.41" />
+            </symbol>
+            <symbol id="ic-moon" viewBox="0 0 24 24">
+                <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
+            </symbol>
+            <symbol id="ic-menu" viewBox="0 0 24 24">
+                <line x1="4" y1="12" x2="20" y2="12" />
+                <line x1="4" y1="6" x2="20" y2="6" />
+                <line x1="4" y1="18" x2="20" y2="18" />
+            </symbol>
+            <symbol id="ic-download" viewBox="0 0 24 24">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                <polyline points="7 10 12 15 17 10" />
+                <line x1="12" y1="15" x2="12" y2="3" />
+            </symbol>
+        </defs>
+    </svg>
+
+    <div class="app">
+        <aside class="sidebar" id="sidebar" aria-label="Navigation étudiant">
+            <div class="sidebar-header"><a class="sidebar-brand" href="dashboard.html">
+                    <div class="sidebar-logo" style="background:var(--clr-accent)">E</div><span
+                        class="sidebar-brand-name">EduLedger</span>
+                </a></div>
+            <nav class="sidebar-nav">
+                <div class="nav-group">
+                    <p class="nav-group-label">Mon espace</p>
+                    <a class="nav-link" href="dashboard.html"><svg class="icon" aria-hidden="true">
+                            <use href="#ic-dashboard" />
+                        </svg><span class="nav-label">Tableau de bord</span></a>
+                    <a class="nav-link active" href="results.html" aria-current="page"><svg class="icon"
+                            aria-hidden="true">
+                            <use href="#ic-file-text" />
+                        </svg><span class="nav-label">Mes résultats</span></a>
+                    <a class="nav-link" href="performance.html"><svg class="icon" aria-hidden="true">
+                            <use href="#ic-trend" />
+                        </svg><span class="nav-label">Ma progression</span></a>
+                    <a class="nav-link" href="history.html"><svg class="icon" aria-hidden="true">
+                            <use href="#ic-history" />
+                        </svg><span class="nav-label">Historique</span></a>
+                </div>
+                <div class="nav-group">
+                    <p class="nav-group-label">Compte</p>
+                    <a class="nav-link" href="settings.html"><svg class="icon" aria-hidden="true">
+                            <use href="#ic-settings" />
+                        </svg><span class="nav-label">Paramètres</span></a>
+                </div>
+            </nav>
+            <div class="sidebar-footer"><a class="nav-link" href="../login/"><svg class="icon"
+                        aria-hidden="true">
+                        <use href="#ic-logout" />
+                    </svg><span class="nav-label">Déconnexion</span></a></div>
+        </aside>
+        <div id="mobileOverlay" class="mobile-overlay"></div>
+
+        <div class="main-area">
+            <header class="app-header">
+                <button class="btn-icon" id="sidebarToggle" aria-label="Réduire la navigation"><svg class="icon"
+                        style="font-size:1.125rem" aria-hidden="true">
+                        <use href="#ic-menu" />
+                    </svg></button>
+                <nav aria-label="Fil d'ariane" style="font-size:0.8125rem;color:var(--clr-muted-fg)"><span
+                        style="color:var(--clr-fg);font-weight:500">Mes résultats</span></nav>
+                <div class="header-actions">
+                    <button class="btn-icon theme-toggle" id="themeToggle" aria-label="Basculer le thème">
+                        <svg class="icon icon-sun" style="font-size:1.125rem" aria-hidden="true">
+                            <use href="#ic-sun" />
+                        </svg>
+                        <svg class="icon icon-moon" style="font-size:1.125rem" aria-hidden="true">
+                            <use href="#ic-moon" />
+                        </svg>
+                    </button>
+                </div>
+            </header>
+
+            <main class="content">
+                <div class="page-inner">
+                    <div
+                        style="display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;flex-wrap:wrap">
+                        <div>
+                            <h1 style="font-size:1.5rem;font-weight:700;letter-spacing:-0.02em">Mes résultats</h1>
+                            <p style="font-size:0.875rem;color:var(--clr-muted-fg);margin-top:0.25rem">L3 Informatique —
+                                Semestre 2 · 2024-2025</p>
+                        </div>
+                        <div style="display:flex;gap:.5rem;flex-wrap:wrap">
+                            <select class="form-select" style="width:auto;padding-inline:.75rem">
+                                <option>Semestre 2 2024-2025</option>
+                                <option>Semestre 1 2024-2025</option>
+                                <option>Semestre 2 2023-2024</option>
+                            </select>
+                            <button class="btn btn-outline btn-sm"><svg class="icon" aria-hidden="true">
+                                    <use href="#ic-download" />
+                                </svg> Relevé PDF</button>
+                        </div>
+                    </div>
+
+                    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem;text-align:center">
+                        <div class="card" style="padding:1rem">
+                            <p style="font-size:.8125rem;color:var(--clr-muted-fg);margin-bottom:.25rem">Moyenne
+                                générale</p>
+                            <p style="font-size:1.75rem;font-weight:700;color:var(--clr-accent)">14,6/20</p>
+                        </div>
+                        <div class="card" style="padding:1rem">
+                            <p style="font-size:.8125rem;color:var(--clr-muted-fg);margin-bottom:.25rem">Crédits obtenus
+                            </p>
+                            <p style="font-size:1.75rem;font-weight:700;color:var(--clr-primary)">26/30</p>
+                        </div>
+                        <div class="card" style="padding:1rem">
+                            <p style="font-size:.8125rem;color:var(--clr-muted-fg);margin-bottom:.25rem">Décision</p>
+                            <p style="font-size:1.25rem;font-weight:700;color:hsl(142,72%,29%)">Admis</p>
+                        </div>
+                    </div>
+
+                    <section class="card">
+                        <div class="card-content" style="padding:0;overflow-x:auto">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Matière</th>
+                                        <th>Code</th>
+                                        <th>Coeff.</th>
+                                        <th>Crédits</th>
+                                        <th>Note/20</th>
+                                        <th>Mention</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="ue-header">
+                                        <td colspan="6">UE1 — Informatique fondamentale (12 crédits)</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Algorithmique avancée</td>
+                                        <td>INF301</td>
+                                        <td>4</td>
+                                        <td>4</td>
+                                        <td class="grade-high">16,00</td>
+                                        <td><span class="badge badge-success">Bien</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Réseaux informatiques</td>
+                                        <td>INF302</td>
+                                        <td>3</td>
+                                        <td>4</td>
+                                        <td class="grade-high">15,00</td>
+                                        <td><span class="badge badge-success">Bien</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Systèmes d'exploitation</td>
+                                        <td>INF303</td>
+                                        <td>3</td>
+                                        <td>4</td>
+                                        <td class="grade-mid">12,00</td>
+                                        <td><span class="badge badge-outline">Passable</span></td>
+                                    </tr>
+                                    <tr class="ue-header">
+                                        <td colspan="6">UE2 — Mathématiques appliquées (10 crédits)</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Base de données</td>
+                                        <td>MAT301</td>
+                                        <td>4</td>
+                                        <td>5</td>
+                                        <td class="grade-mid">13,00</td>
+                                        <td><span class="badge badge-outline">Passable</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Analyse numérique</td>
+                                        <td>MAT302</td>
+                                        <td>2</td>
+                                        <td>3</td>
+                                        <td class="grade-low">8,00</td>
+                                        <td><span class="badge badge-destructive">Insuffisant</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Probabilités et stats</td>
+                                        <td>MAT303</td>
+                                        <td>3</td>
+                                        <td>3</td>
+                                        <td class="grade-high">14,00</td>
+                                        <td><span class="badge badge-success">Bien</span></td>
+                                    </tr>
+                                    <tr class="ue-header">
+                                        <td colspan="6">UE3 — Transversale (8 crédits)</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Programmation objet</td>
+                                        <td>INF304</td>
+                                        <td>4</td>
+                                        <td>5</td>
+                                        <td class="grade-high">17,00</td>
+                                        <td><span class="badge badge-success">Très bien</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Anglais technique</td>
+                                        <td>LNG301</td>
+                                        <td>2</td>
+                                        <td>3</td>
+                                        <td class="grade-high">15,00</td>
+                                        <td><span class="badge badge-success">Bien</span></td>
+                                    </tr>
+                                    <tr class="total-row">
+                                        <td>Moyenne générale</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>26/30</td>
+                                        <td class="grade-high">14,6/20</td>
+                                        <td><span class="badge badge-success">Admis</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+                </div>
+            </main>
+        </div>
+    </div>
+    <script src="../assets/js/app.js"></script>
+</body>
+
+</html>

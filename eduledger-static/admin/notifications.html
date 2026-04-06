@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Notifications — Admin EduLedger</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="../assets/css/main.css" />
+    <link rel="stylesheet" href="../assets/css/components.css" />
+    <link rel="stylesheet" href="../assets/css/layout.css" />
+    <style>
+        .page-inner {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            padding: 1.5rem
+        }
+
+        .notif-item {
+            display: flex;
+            gap: 1rem;
+            padding: 1rem 1.25rem;
+            border-bottom: 1px solid var(--clr-border);
+            align-items: flex-start;
+            transition: background .15s
+        }
+
+        .notif-item:last-child {
+            border-bottom: none
+        }
+
+        .notif-item.unread {
+            background: color-mix(in srgb, var(--clr-primary) 5%, transparent)
+        }
+
+        .notif-dot {
+            width: .6rem;
+            height: .6rem;
+            border-radius: 50%;
+            background: var(--clr-primary);
+            flex-shrink: 0;
+            margin-top: .35rem
+        }
+
+        .notif-dot.read {
+            background: var(--clr-border)
+        }
+
+        .notif-body {
+            flex: 1;
+            min-width: 0
+        }
+
+        .notif-title {
+            font-weight: 600;
+            font-size: .875rem;
+            margin-bottom: .125rem
+        }
+
+        .notif-desc {
+            font-size: .8125rem;
+            color: var(--clr-muted-fg)
+        }
+
+        .notif-time {
+            font-size: .75rem;
+            color: var(--clr-muted-fg);
+            white-space: nowrap;
+            margin-top: .25rem
+        }
+    </style>
+</head>
+
+<body>
+    <svg style="display:none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <defs>
+            <symbol id="ic-dashboard" viewBox="0 0 24 24">
+                <rect width="7" height="9" x="3" y="3" rx="1" />
+                <rect width="7" height="5" x="14" y="3" rx="1" />
+                <rect width="7" height="9" x="14" y="12" rx="1" />
+                <rect width="7" height="5" x="3" y="16" rx="1" />
+            </symbol>
+            <symbol id="ic-users" viewBox="0 0 24 24">
+                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+                <circle cx="9" cy="7" r="4" />
+            </symbol>
+            <symbol id="ic-graduation" viewBox="0 0 24 24">
+                <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
+                <path d="M6 12v5c3 3 9 3 12 0v-5" />
+            </symbol>
+            <symbol id="ic-upload" viewBox="0 0 24 24">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                <polyline points="17 8 12 3 7 8" />
+                <line x1="12" y1="3" x2="12" y2="15" />
+            </symbol>
+            <symbol id="ic-bar-chart" viewBox="0 0 24 24">
+                <path d="M18 20V10M12 20V4M6 20v-6" />
+            </symbol>
+            <symbol id="ic-calendar" viewBox="0 0 24 24">
+                <rect width="18" height="18" x="3" y="4" rx="2" />
+                <line x1="16" y1="2" x2="16" y2="6" />
+                <line x1="8" y1="2" x2="8" y2="6" />
+                <line x1="3" y1="10" x2="21" y2="10" />
+            </symbol>
+            <symbol id="ic-bell" viewBox="0 0 24 24">
+                <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" />
+                <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" />
+            </symbol>
+            <symbol id="ic-activity" viewBox="0 0 24 24">
+                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+            </symbol>
+            <symbol id="ic-settings" viewBox="0 0 24 24">
+                <path
+                    d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z" />
+                <circle cx="12" cy="12" r="3" />
+            </symbol>
+            <symbol id="ic-logout" viewBox="0 0 24 24">
+                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                <polyline points="16 17 21 12 16 7" />
+                <line x1="21" y1="12" x2="9" y2="12" />
+            </symbol>
+            <symbol id="ic-sun" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="4" />
+                <path
+                    d="M12 2v2M12 20v2m-7.07-14.07 1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2m-4.93-7.07-1.41 1.41M6.34 17.66l-1.41 1.41" />
+            </symbol>
+            <symbol id="ic-moon" viewBox="0 0 24 24">
+                <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
+            </symbol>
+            <symbol id="ic-menu" viewBox="0 0 24 24">
+                <line x1="4" y1="12" x2="20" y2="12" />
+                <line x1="4" y1="6" x2="20" y2="6" />
+                <line x1="4" y1="18" x2="20" y2="18" />
+            </symbol>
+            <symbol id="ic-check" viewBox="0 0 24 24">
+                <polyline points="20 6 9 17 4 12" />
+            </symbol>
+        </defs>
+    </svg>
+
+    <div class="app">
+        <aside class="sidebar" id="sidebar" aria-label="Navigation admin">
+            <div class="sidebar-header"><a class="sidebar-brand" href="dashboard.html">
+                    <div class="sidebar-logo">E</div><span class="sidebar-brand-name">EduLedger</span>
+                </a></div>
+            <nav class="sidebar-nav">
+                <div class="nav-group">
+                    <p class="nav-group-label">Navigation</p>
+                    <a class="nav-link" href="dashboard.html"><svg class="icon" aria-hidden="true">
+                            <use href="#ic-dashboard" />
+                        </svg><span class="nav-label">Tableau de bord</span></a>
+                    <a class="nav-link" href="students.html"><svg class="icon" aria-hidden="true">
+                            <use href="#ic-users" />
+                        </svg><span class="nav-label">Étudiants</span></a>
+                    <a class="nav-link" href="promotions.html"><svg class="icon" aria-hidden="true">
+                            <use href="#ic-graduation" />
+                        </svg><span class="nav-label">Promotions</span></a>
+                    <a class="nav-link" href="import.html"><svg class="icon" aria-hidden="true">
+                            <use href="#ic-upload" />
+                        </svg><span class="nav-label">Import Excel</span></a>
+                    <a class="nav-link" href="results.html"><svg class="icon" aria-hidden="true">
+                            <use href="#ic-bar-chart" />
+                        </svg><span class="nav-label">Résultats</span></a>
+                </div>
+                <div class="nav-group">
+                    <p class="nav-group-label">Configuration</p>
+                    <a class="nav-link" href="academic-years.html"><svg class="icon" aria-hidden="true">
+                            <use href="#ic-calendar" />
+                        </svg><span class="nav-label">Années académiques</span></a>
+                    <a class="nav-link" href="activity.html"><svg class="icon" aria-hidden="true">
+                            <use href="#ic-activity" />
+                        </svg><span class="nav-label">Historique</span></a>
+                    <a class="nav-link active" href="notifications.html" aria-current="page"><svg class="icon"
+                            aria-hidden="true">
+                            <use href="#ic-bell" />
+                        </svg><span class="nav-label">Notifications</span></a>
+                    <a class="nav-link" href="settings.html"><svg class="icon" aria-hidden="true">
+                            <use href="#ic-settings" />
+                        </svg><span class="nav-label">Paramètres</span></a>
+                </div>
+            </nav>
+            <div class="sidebar-footer"><a class="nav-link" href="../login/"><svg class="icon"
+                        aria-hidden="true">
+                        <use href="#ic-logout" />
+                    </svg><span class="nav-label">Déconnexion</span></a></div>
+        </aside>
+        <div id="mobileOverlay" class="mobile-overlay"></div>
+
+        <div class="main-area">
+            <header class="app-header">
+                <button class="btn-icon" id="sidebarToggle" aria-label="Réduire la navigation"><svg class="icon"
+                        style="font-size:1.125rem" aria-hidden="true">
+                        <use href="#ic-menu" />
+                    </svg></button>
+                <nav aria-label="Fil d'ariane" style="font-size:0.8125rem;color:var(--clr-muted-fg)">Administration
+                    <span style="margin-inline:0.25rem">/</span><span
+                        style="color:var(--clr-fg);font-weight:500">Notifications</span></nav>
+                <div class="header-actions">
+                    <button class="btn-icon theme-toggle" id="themeToggle" aria-label="Basculer le thème">
+                        <svg class="icon icon-sun" style="font-size:1.125rem" aria-hidden="true">
+                            <use href="#ic-sun" />
+                        </svg>
+                        <svg class="icon icon-moon" style="font-size:1.125rem" aria-hidden="true">
+                            <use href="#ic-moon" />
+                        </svg>
+                    </button>
+                </div>
+            </header>
+
+            <main class="content">
+                <div class="page-inner">
+                    <div
+                        style="display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;flex-wrap:wrap">
+                        <div>
+                            <h1 style="font-size:1.5rem;font-weight:700;letter-spacing:-0.02em">Notifications</h1>
+                            <p style="font-size:0.875rem;color:var(--clr-muted-fg);margin-top:0.25rem">3 notification(s)
+                                non lue(s)</p>
+                        </div>
+                        <button class="btn btn-outline btn-sm" id="btnMarkAll">
+                            <svg class="icon" aria-hidden="true">
+                                <use href="#ic-check" />
+                            </svg>
+                            Tout marquer comme lu
+                        </button>
+                    </div>
+
+                    <section class="card">
+                        <div class="card-content" style="padding:0">
+                            <div class="notif-item unread">
+                                <div class="notif-dot"></div>
+                                <div class="notif-body">
+                                    <p class="notif-title">Import de résultats terminé</p>
+                                    <p class="notif-desc">Le fichier <strong>resultats_L3-INFO-S2.xlsx</strong> a été
+                                        importé avec succès — 42 notes enregistrées.</p>
+                                </div>
+                                <span class="notif-time">Il y a 12 min</span>
+                            </div>
+                            <div class="notif-item unread">
+                                <div class="notif-dot"></div>
+                                <div class="notif-body">
+                                    <p class="notif-title">Nouvel étudiant inscrit</p>
+                                    <p class="notif-desc"><strong>Amina Koné</strong> a été ajoutée à la promotion
+                                        <strong>L2 Droit Public</strong>.</p>
+                                </div>
+                                <span class="notif-time">Il y a 1 h</span>
+                            </div>
+                            <div class="notif-item unread">
+                                <div class="notif-dot"></div>
+                                <div class="notif-body">
+                                    <p class="notif-title">Alerte de doublon détecté</p>
+                                    <p class="notif-desc">Un doublon potentiel a été détecté lors du dernier import —
+                                        vérifiez le fichier de résultats.</p>
+                                </div>
+                                <span class="notif-time">Il y a 3 h</span>
+                            </div>
+                            <div class="notif-item">
+                                <div class="notif-dot read"></div>
+                                <div class="notif-body">
+                                    <p class="notif-title">Rapport mensuel disponible</p>
+                                    <p class="notif-desc">Le rapport de suivi pour le mois de Mai 2025 est prêt à être
+                                        consulté.</p>
+                                </div>
+                                <span class="notif-time">Hier</span>
+                            </div>
+                            <div class="notif-item">
+                                <div class="notif-dot read"></div>
+                                <div class="notif-body">
+                                    <p class="notif-title">Mise à jour du système</p>
+                                    <p class="notif-desc">EduLedger a été mis à jour vers la version 2.1.0. Consultez
+                                        les nouveautés.</p>
+                                </div>
+                                <span class="notif-time">Il y a 3 j</span>
+                            </div>
+                            <div class="notif-item">
+                                <div class="notif-dot read"></div>
+                                <div class="notif-body">
+                                    <p class="notif-title">Promotion clôturée</p>
+                                    <p class="notif-desc">La promotion <strong>L3 Informatique 2023-2024</strong> a été
+                                        archivée avec succès.</p>
+                                </div>
+                                <span class="notif-time">Il y a 1 sem.</span>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="../assets/js/app.js"></script>
+    <script>
+        document.getElementById('btnMarkAll').addEventListener('click', function () {
+            document.querySelectorAll('.notif-item.unread').forEach(function (el) { el.classList.remove('unread'); });
+            document.querySelectorAll('.notif-dot').forEach(function (d) { d.classList.add('read'); });
+            document.querySelector('h1 + p').textContent = '0 notification(s) non lue(s)';
+        });
+    </script>
+</body>
+
+</html>

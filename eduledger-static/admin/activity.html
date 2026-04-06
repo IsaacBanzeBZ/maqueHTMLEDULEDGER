@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Historique — Admin EduLedger</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="../assets/css/main.css" />
+    <link rel="stylesheet" href="../assets/css/components.css" />
+    <link rel="stylesheet" href="../assets/css/layout.css" />
+    <style>
+        .page-inner {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            padding: 1.5rem
+        }
+    </style>
+</head>
+
+<body>
+    <svg style="display:none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <defs>
+            <symbol id="ic-dashboard" viewBox="0 0 24 24">
+                <rect width="7" height="9" x="3" y="3" rx="1" />
+                <rect width="7" height="5" x="14" y="3" rx="1" />
+                <rect width="7" height="9" x="14" y="12" rx="1" />
+                <rect width="7" height="5" x="3" y="16" rx="1" />
+            </symbol>
+            <symbol id="ic-users" viewBox="0 0 24 24">
+                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+                <circle cx="9" cy="7" r="4" />
+            </symbol>
+            <symbol id="ic-graduation" viewBox="0 0 24 24">
+                <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
+                <path d="M6 12v5c3 3 9 3 12 0v-5" />
+            </symbol>
+            <symbol id="ic-upload" viewBox="0 0 24 24">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                <polyline points="17 8 12 3 7 8" />
+                <line x1="12" y1="3" x2="12" y2="15" />
+            </symbol>
+            <symbol id="ic-bar-chart" viewBox="0 0 24 24">
+                <path d="M18 20V10M12 20V4M6 20v-6" />
+            </symbol>
+            <symbol id="ic-calendar" viewBox="0 0 24 24">
+                <rect width="18" height="18" x="3" y="4" rx="2" />
+                <line x1="16" y1="2" x2="16" y2="6" />
+                <line x1="8" y1="2" x2="8" y2="6" />
+                <line x1="3" y1="10" x2="21" y2="10" />
+            </symbol>
+            <symbol id="ic-bell" viewBox="0 0 24 24">
+                <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" />
+                <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" />
+            </symbol>
+            <symbol id="ic-activity" viewBox="0 0 24 24">
+                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+            </symbol>
+            <symbol id="ic-settings" viewBox="0 0 24 24">
+                <path
+                    d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z" />
+                <circle cx="12" cy="12" r="3" />
+            </symbol>
+            <symbol id="ic-logout" viewBox="0 0 24 24">
+                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                <polyline points="16 17 21 12 16 7" />
+                <line x1="21" y1="12" x2="9" y2="12" />
+            </symbol>
+            <symbol id="ic-sun" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="4" />
+                <path
+                    d="M12 2v2M12 20v2m-7.07-14.07 1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2m-4.93-7.07-1.41 1.41M6.34 17.66l-1.41 1.41" />
+            </symbol>
+            <symbol id="ic-moon" viewBox="0 0 24 24">
+                <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
+            </symbol>
+            <symbol id="ic-menu" viewBox="0 0 24 24">
+                <line x1="4" y1="12" x2="20" y2="12" />
+                <line x1="4" y1="6" x2="20" y2="6" />
+                <line x1="4" y1="18" x2="20" y2="18" />
+            </symbol>
+            <symbol id="ic-search" viewBox="0 0 24 24">
+                <circle cx="11" cy="11" r="8" />
+                <path d="m21 21-4.35-4.35" />
+            </symbol>
+        </defs>
+    </svg>
+
+    <div class="app">
+        <aside class="sidebar" id="sidebar" aria-label="Navigation admin">
+            <div class="sidebar-header"><a class="sidebar-brand" href="dashboard.html">
+                    <div class="sidebar-logo">E</div><span class="sidebar-brand-name">EduLedger</span>
+                </a></div>
+            <nav class="sidebar-nav">
+                <div class="nav-group">
+                    <p class="nav-group-label">Navigation</p>
+                    <a class="nav-link" href="dashboard.html"><svg class="icon" aria-hidden="true">
+                            <use href="#ic-dashboard" />
+                        </svg><span class="nav-label">Tableau de bord</span></a>
+                    <a class="nav-link" href="students.html"><svg class="icon" aria-hidden="true">
+                            <use href="#ic-users" />
+                        </svg><span class="nav-label">Étudiants</span></a>
+                    <a class="nav-link" href="promotions.html"><svg class="icon" aria-hidden="true">
+                            <use href="#ic-graduation" />
+                        </svg><span class="nav-label">Promotions</span></a>
+                    <a class="nav-link" href="import.html"><svg class="icon" aria-hidden="true">
+                            <use href="#ic-upload" />
+                        </svg><span class="nav-label">Import Excel</span></a>
+                    <a class="nav-link" href="results.html"><svg class="icon" aria-hidden="true">
+                            <use href="#ic-bar-chart" />
+                        </svg><span class="nav-label">Résultats</span></a>
+                </div>
+                <div class="nav-group">
+                    <p class="nav-group-label">Configuration</p>
+                    <a class="nav-link" href="academic-years.html"><svg class="icon" aria-hidden="true">
+                            <use href="#ic-calendar" />
+                        </svg><span class="nav-label">Années académiques</span></a>
+                    <a class="nav-link active" href="activity.html" aria-current="page"><svg class="icon"
+                            aria-hidden="true">
+                            <use href="#ic-activity" />
+                        </svg><span class="nav-label">Historique</span></a>
+                    <a class="nav-link" href="notifications.html"><svg class="icon" aria-hidden="true">
+                            <use href="#ic-bell" />
+                        </svg><span class="nav-label">Notifications</span></a>
+                    <a class="nav-link" href="settings.html"><svg class="icon" aria-hidden="true">
+                            <use href="#ic-settings" />
+                        </svg><span class="nav-label">Paramètres</span></a>
+                </div>
+            </nav>
+            <div class="sidebar-footer"><a class="nav-link" href="../login/"><svg class="icon"
+                        aria-hidden="true">
+                        <use href="#ic-logout" />
+                    </svg><span class="nav-label">Déconnexion</span></a></div>
+        </aside>
+        <div id="mobileOverlay" class="mobile-overlay"></div>
+
+        <div class="main-area">
+            <header class="app-header">
+                <button class="btn-icon" id="sidebarToggle" aria-label="Réduire la navigation"><svg class="icon"
+                        style="font-size:1.125rem" aria-hidden="true">
+                        <use href="#ic-menu" />
+                    </svg></button>
+                <nav aria-label="Fil d'ariane" style="font-size:0.8125rem;color:var(--clr-muted-fg)">Administration
+                    <span style="margin-inline:0.25rem">/</span><span
+                        style="color:var(--clr-fg);font-weight:500">Historique d'activité</span></nav>
+                <div class="header-actions">
+                    <button class="btn-icon theme-toggle" id="themeToggle" aria-label="Basculer le thème">
+                        <svg class="icon icon-sun" style="font-size:1.125rem" aria-hidden="true">
+                            <use href="#ic-sun" />
+                        </svg>
+                        <svg class="icon icon-moon" style="font-size:1.125rem" aria-hidden="true">
+                            <use href="#ic-moon" />
+                        </svg>
+                    </button>
+                </div>
+            </header>
+
+            <main class="content">
+                <div class="page-inner">
+                    <div>
+                        <h1 style="font-size:1.5rem;font-weight:700;letter-spacing:-0.02em">Historique d'activité</h1>
+                        <p style="font-size:0.875rem;color:var(--clr-muted-fg);margin-top:0.25rem">Journal des actions
+                            effectuées sur la plateforme</p>
+                    </div>
+
+                    <div style="display:flex;gap:.75rem;flex-wrap:wrap">
+                        <div class="input-wrapper has-icon-left" style="flex:1;min-width:14rem">
+                            <svg class="icon input-icon-left" aria-hidden="true">
+                                <use href="#ic-search" />
+                            </svg>
+                            <input class="form-input" type="search" placeholder="Rechercher une action…"
+                                data-search-table="activityTable" />
+                        </div>
+                        <input type="date" class="form-input" style="width:auto" />
+                        <select class="form-select" style="width:auto;padding-inline:.75rem">
+                            <option>Toutes les actions</option>
+                            <option>Import</option>
+                            <option>Étudiant</option>
+                            <option>Promotion</option>
+                            <option>Connexion</option>
+                        </select>
+                    </div>
+
+                    <section class="card">
+                        <div class="card-content" style="padding:0;overflow-x:auto">
+                            <table class="data-table" id="activityTable">
+                                <thead>
+                                    <tr>
+                                        <th>Date &amp; heure</th>
+                                        <th>Utilisateur</th>
+                                        <th>Action</th>
+                                        <th>Détails</th>
+                                        <th>Statut</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td style="font-size:.8125rem;color:var(--clr-muted-fg)">21/06/2025 14:32</td>
+                                        <td>admin@ufhb.ci</td>
+                                        <td>Import résultats</td>
+                                        <td>resultats_L3-INFO-S2.xlsx (42 notes)</td>
+                                        <td><span class="badge badge-success">Succès</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="font-size:.8125rem;color:var(--clr-muted-fg)">21/06/2025 13:15</td>
+                                        <td>admin@ufhb.ci</td>
+                                        <td>Ajout étudiant</td>
+                                        <td>Amina Koné — L2 Droit Public</td>
+                                        <td><span class="badge badge-success">Succès</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="font-size:.8125rem;color:var(--clr-muted-fg)">21/06/2025 11:04</td>
+                                        <td>admin@ufhb.ci</td>
+                                        <td>Import résultats</td>
+                                        <td>resultats_L2-DROIT-S1.xlsx (doublon)</td>
+                                        <td><span class="badge badge-warning">Avertissement</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="font-size:.8125rem;color:var(--clr-muted-fg)">20/06/2025 17:52</td>
+                                        <td>admin@ufhb.ci</td>
+                                        <td>Connexion</td>
+                                        <td>IP : 196.28.14.2 — Navigateur : Chrome</td>
+                                        <td><span class="badge badge-success">Succès</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="font-size:.8125rem;color:var(--clr-muted-fg)">20/06/2025 16:30</td>
+                                        <td>admin@ufhb.ci</td>
+                                        <td>Modification promotion</td>
+                                        <td>L3 Informatique — changement de responsable</td>
+                                        <td><span class="badge badge-success">Succès</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="font-size:.8125rem;color:var(--clr-muted-fg)">19/06/2025 09:22</td>
+                                        <td>admin@ufhb.ci</td>
+                                        <td>Import résultats</td>
+                                        <td>Erreur de format — fichier rejeté</td>
+                                        <td><span class="badge badge-destructive">Échec</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="font-size:.8125rem;color:var(--clr-muted-fg)">18/06/2025 14:10</td>
+                                        <td>admin@ufhb.ci</td>
+                                        <td>Suppression note</td>
+                                        <td>Note 0504 — L1 Médecine S1</td>
+                                        <td><span class="badge badge-success">Succès</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="font-size:.8125rem;color:var(--clr-muted-fg)">17/06/2025 10:05</td>
+                                        <td>admin@ufhb.ci</td>
+                                        <td>Connexion</td>
+                                        <td>IP : 196.28.14.2 — Navigateur : Firefox</td>
+                                        <td><span class="badge badge-success">Succès</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="../assets/js/app.js"></script>
+</body>
+
+</html>
