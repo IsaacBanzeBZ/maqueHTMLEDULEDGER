@@ -15,15 +15,18 @@
     <style>
         .login-error {
             display: none;
-            background: color-mix(in srgb, hsl(0,84%,60%) 10%, transparent);
-            border: 1px solid color-mix(in srgb, hsl(0,84%,60%) 30%, transparent);
-            color: hsl(0,60%,40%);
+            background: color-mix(in srgb, hsl(0, 84%, 60%) 10%, transparent);
+            border: 1px solid color-mix(in srgb, hsl(0, 84%, 60%) 30%, transparent);
+            color: hsl(0, 60%, 40%);
             border-radius: var(--radius);
             padding: .625rem .875rem;
             font-size: .8125rem;
             margin-bottom: .75rem;
         }
-        [data-theme="dark"] .login-error { color: hsl(0,80%,70%); }
+
+        [data-theme="dark"] .login-error {
+            color: hsl(0, 80%, 70%);
+        }
     </style>
 </head>
 
@@ -230,17 +233,17 @@
     <script>
         // Comptes de démonstration — en production cette vérification se fait côté serveur
         var DEMO_USERS = [
-            { email: 'etudiant@ufhb.edu.ci',    password: 'eduledger', redirect: '../student/dashboard.html' },
-            { email: 'admin@ufhb.edu.ci',        password: 'eduledger', redirect: '../admin/dashboard.html' },
-            { email: 'superadmin@eduledger.ci',  password: 'eduledger', redirect: '../super-admin/dashboard.html' }
+            { email: 'etudiant@ufhb.edu.ci', password: 'eduledger', redirect: '../student/dashboard.html' },
+            { email: 'admin@ufhb.edu.ci', password: 'eduledger', redirect: '../admin/dashboard.html' },
+            { email: 'superadmin@eduledger.ci', password: 'eduledger', redirect: '../super-admin/dashboard.html' }
         ];
 
         document.getElementById('loginForm').addEventListener('submit', function (e) {
             e.preventDefault();
-            var email    = document.getElementById('email').value.trim().toLowerCase();
+            var email = document.getElementById('email').value.trim().toLowerCase();
             var password = document.getElementById('password').value;
-            var errorEl  = document.getElementById('loginError');
-            var btn      = document.getElementById('submitBtn');
+            var errorEl = document.getElementById('loginError');
+            var btn = document.getElementById('submitBtn');
 
             var user = DEMO_USERS.find(function (u) {
                 return u.email === email && u.password === password;
